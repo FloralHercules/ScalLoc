@@ -1,2 +1,1 @@
-# ScalLoc
-Thermal Oblique UAV Sequence Geo-Localization
+The code and data will be made publicly available upon acceptance of the arXiv preprint.
