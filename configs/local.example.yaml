@@ -1,0 +1,16 @@
+# Copy to local.yaml and replace these paths. Assets are read in place, not copied.
+paths:
+  dataset_root: /absolute/path/to/Thermal-Oblique/test/changsha
+  reference_map: /absolute/path/to/maps/changsha/ref.tif
+  dsm_map: /absolute/path/to/maps/changsha/dsm.tif
+  vggt_weights: /absolute/path/to/model.safetensors
+  minima_weights: /absolute/path/to/minima_roma.pth
+  dinov2_weights: /absolute/path/to/dinov2_vitl14_pretrain.pth
+  region_config: configs/regions/changsha.yaml
+  output_root: outputs
+run:
+  datasets: [Rural_Day_Curve_H150_P30_S01]
+  max_windows: 0
+  pitch_max_deg: 0.0
+  height_max_fraction: 0.0
+  vggt_predictions: false

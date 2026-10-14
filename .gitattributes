@@ -1,0 +1,3 @@
+# Preserve audited source bytes, including vendored upstream SHA256 hashes.
+# Do not let platform-specific core.autocrlf settings rewrite this snapshot.
+* -text

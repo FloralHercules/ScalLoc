@@ -1,0 +1,977 @@
+{
+  "source_entrypoint": "ScalLoc1.py",
+  "source_sha256": "c376903fbb6b4570fef3ed2d548c854e3225e5336aaed075706973fef328e28d",
+  "dataset_public_name": "Thermal-Oblique",
+  "functions": {
+    "seed_everything": {
+      "module": "pipeline",
+      "original_ast_sha256": "4390e5f95b99ab05805cdb1a3e9a883b980f1ae36d0b075db537baca5eff3847",
+      "path_adapter": false
+    },
+    "record_stage_timing": {
+      "module": "reporting",
+      "original_ast_sha256": "18e88f881d27aee58053e8e14fd2c2046c57cfd2db2788764cfe746f2032c192",
+      "path_adapter": false
+    },
+    "build_stage_timing_rows": {
+      "module": "reporting",
+      "original_ast_sha256": "485b893f5fd877f82f630dffd7ce9aa425e6149880d179a563f7d43e5e218a98",
+      "path_adapter": false
+    },
+    "load_module_from_path": {
+      "module": "runtime_utils",
+      "original_ast_sha256": "a0181e8080860aed2f1f255079453bb1e1dd9b4ed7267cceb022c329bdd3fcf3",
+      "path_adapter": false
+    },
+    "template_match_optimizer_path": {
+      "module": "runtime_utils",
+      "original_ast_sha256": "7d2d16aac27bd8cb048ea12d4d8ddfc3f0771eafab2cebc0747ac4712e52b276",
+      "path_adapter": false
+    },
+    "wrap_deg": {
+      "module": "geometry",
+      "original_ast_sha256": "b0b6c8bb3cd8aa1a6808c8a7fae3b428f0723a26087d68ed51797e3d41ca057d",
+      "path_adapter": false
+    },
+    "apply_sim2": {
+      "module": "geometry",
+      "original_ast_sha256": "ca03621d7d7a1bfc31b746940576e7403580df22327d3f9b07a077a8f4f98beb",
+      "path_adapter": false
+    },
+    "compose_sim2": {
+      "module": "geometry",
+      "original_ast_sha256": "7b8e8231c3af73cb7c04741e90f0b83f2af3d329e9d94f0c34194395aad9406a",
+      "path_adapter": false
+    },
+    "invert_sim2": {
+      "module": "geometry",
+      "original_ast_sha256": "65e00c90bf40c29ae7b7151093f9b50c4e0d6f1c847115ad69aa8184bae423e8",
+      "path_adapter": false
+    },
+    "sim2_from_pivot": {
+      "module": "geometry",
+      "original_ast_sha256": "0d7290003e18315c37190d714681f02dd6930c838c105a56c302e9bbac0b2fd5",
+      "path_adapter": false
+    },
+    "blend_sim2_at_local_pivot": {
+      "module": "geometry",
+      "original_ast_sha256": "35308c2d5299d91ddec3ccd8ae9056397666fda835eaa9e64ddc3be435744dd9",
+      "path_adapter": false
+    },
+    "sim2_scale_yaw": {
+      "module": "geometry",
+      "original_ast_sha256": "d9a23e75d1c0b66f632ca666692c1f738b87585086305453e1b7b258613d45f7",
+      "path_adapter": false
+    },
+    "satellite_residual_for_pose": {
+      "module": "geometry",
+      "original_ast_sha256": "4eef9a0c840559ccd92662713765e427726becec3d84850b76d8170654c68eef",
+      "path_adapter": false
+    },
+    "accepted_anchor_component_history": {
+      "module": "geometry",
+      "original_ast_sha256": "b84280522e2182764e5360eb30b6b4a1f6a6efea5cea37997f0620d96a3d8755",
+      "path_adapter": false
+    },
+    "component_consensus": {
+      "module": "geometry",
+      "original_ast_sha256": "df23be1274fb2bfd10c0581171c463e5e54bd8b3c14beea3a798510e66e515a7",
+      "path_adapter": false
+    },
+    "update_sequential_anchor_scale": {
+      "module": "geometry",
+      "original_ast_sha256": "95a4165c2fcf2bf2aa13f0998874a63e33a998e5a75855db7772dab6d39ac395",
+      "path_adapter": false
+    },
+    "sequential_scale_warmup_observation": {
+      "module": "geometry",
+      "original_ast_sha256": "785523a914039d7ea7ccedc3917e7bc037bbb6470a37248855053719a60d28f4",
+      "path_adapter": false
+    },
+    "bootstrap_sequential_anchor_scale": {
+      "module": "geometry",
+      "original_ast_sha256": "03dd298bfd34f16e35a9e09c206fcd24d7f239d5cee867925f96d4d6c4ea11c5",
+      "path_adapter": false
+    },
+    "estimate_sequence_metric_scale": {
+      "module": "geometry",
+      "original_ast_sha256": "53e969df4a3c7409fc9eaae56f001f57a5ec9cb92278144cdd5d607f07a1fdda",
+      "path_adapter": false
+    },
+    "camera_target_from_ground_anchor_with_pitch": {
+      "module": "geometry",
+      "original_ast_sha256": "6b259cfa112096de2b1d1058ec060404b964bc7403da3c6efa6ca3c27e07588e",
+      "path_adapter": false
+    },
+    "fit_similarity": {
+      "module": "geometry",
+      "original_ast_sha256": "d11be12f2e1a7a8586e76a562ed95f4c032f6a91eed66dc54f79b7be328ab125",
+      "path_adapter": false
+    },
+    "similarity_ransac": {
+      "module": "geometry",
+      "original_ast_sha256": "eaa1150bf44a7e01c22ddc8199922b00028e0db7c1ad4b23afc70d42992dd28c",
+      "path_adapter": false
+    },
+    "fit_similarity_anchored": {
+      "module": "geometry",
+      "original_ast_sha256": "69bea64117b4de530363af7c7c02166411360ecf455d8fdeccb0a3e66c27c9d7",
+      "path_adapter": false
+    },
+    "_convex_hull_area": {
+      "module": "geometry",
+      "original_ast_sha256": "d3895813686726b9144b3589688054a578ed881ac9768fd96f101455add314a0",
+      "path_adapter": false
+    },
+    "_bbox_area": {
+      "module": "geometry",
+      "original_ast_sha256": "72b121ce61f73a9023097fe5e2eb63bde6cc804babff0c1b5cb3b70003109534",
+      "path_adapter": false
+    },
+    "_spread_ratio": {
+      "module": "geometry",
+      "original_ast_sha256": "75d3f1f019c3ccbdc4ad649bd5ade932eeeaac82ff0ebd16d3b8955eb80683e8",
+      "path_adapter": false
+    },
+    "_lateral_span_ratio": {
+      "module": "geometry",
+      "original_ast_sha256": "ca083265df3d8c610269b88f507fc8d96cfc9dccd0c79d9dda1c73cee98bb53d",
+      "path_adapter": false
+    },
+    "similarity_ransac_anchored_like_ly": {
+      "module": "geometry",
+      "original_ast_sha256": "7c38470a80af2c3df1d2933b13c1269cd69dbe2a41e5a30cbfc9555b17abf101",
+      "path_adapter": false
+    },
+    "GroundGeometry": {
+      "module": "geometry",
+      "original_ast_sha256": "b51cebb70873cb7094173fc3b0e00766151c8ba8a9f5f92645bd24aea93141da",
+      "path_adapter": false
+    },
+    "WindowState": {
+      "module": "geometry",
+      "original_ast_sha256": "23880a90d44811e34d58959c588e94dbcfe927011a1178e722a80cc3472b59d1",
+      "path_adapter": false
+    },
+    "predict_window_center_from_history": {
+      "module": "geometry",
+      "original_ast_sha256": "314ccc2ac733bee1257ffc41488479454ec37e02e1ed1e9df997be03e9023f28",
+      "path_adapter": false
+    },
+    "camera_centers": {
+      "module": "geometry",
+      "original_ast_sha256": "fd555e507fc5055a1836b84b637030724a3a0115aa1da05353ee2bac81b0dfc8",
+      "path_adapter": false
+    },
+    "local_xy_from_xyz_canon": {
+      "module": "geometry",
+      "original_ast_sha256": "e8e05b2129dd2bfd816a3946f266a2f8c8c62002da70a372c0312f8926c3ede8",
+      "path_adapter": false
+    },
+    "estimate_ground_plane": {
+      "module": "geometry",
+      "original_ast_sha256": "42a81184bea863568cb16e7c533c47343a86ecebc1affdb807878710e6109587",
+      "path_adapter": false
+    },
+    "build_ground_geometry": {
+      "module": "geometry",
+      "original_ast_sha256": "d76b071c3b590a3d439f061366e682fd8d20f9a47b57f0cebd65e4d49f623b40",
+      "path_adapter": false
+    },
+    "_multiframe_keyframe_indices": {
+      "module": "matching",
+      "original_ast_sha256": "57e672d2e97751ff5ed20895bf8cc30c9b40be90d05d485af73c5d2baac50c5b",
+      "path_adapter": false
+    },
+    "_source_pixels_to_vggt": {
+      "module": "matching",
+      "original_ast_sha256": "18997c34be682e7d0f7faed1e6ea334f8b8223fe5ffb2bc845b563ff547ad199",
+      "path_adapter": false
+    },
+    "_dual_grid_balanced_indices": {
+      "module": "matching",
+      "original_ast_sha256": "d547319ad89ef801367436112a1ce6530b62d59802514c6c16c25c144d29300c",
+      "path_adapter": false
+    },
+    "_grid_ids_for_points": {
+      "module": "matching",
+      "original_ast_sha256": "f945cc500a7e8a4ae3230bc7b682266d5ccc26cc3f31218b04f634166aa80b01",
+      "path_adapter": false
+    },
+    "_candidate_quality_score": {
+      "module": "matching",
+      "original_ast_sha256": "a378b4792ca4338e34598976b3b51c4292d575561a654fe93578a081a8e82bc2",
+      "path_adapter": false
+    },
+    "crop_satellite_tile_at_utm_like_ly": {
+      "module": "matching",
+      "original_ast_sha256": "0bc1e7c7eb286949e77401bcd4beba89bf8ac59a8341838973f4376a68e9a233",
+      "path_adapter": false
+    },
+    "rotate_satellite_tile_with_ly_context": {
+      "module": "matching",
+      "original_ast_sha256": "306a0ab2bff00a02f1a47fbd87d62afecbfbf92767e5d41d4044eeed1f680fda",
+      "path_adapter": false
+    },
+    "build_multiframe_raycast_surface": {
+      "module": "matching",
+      "original_ast_sha256": "8c775222c0253757becf9523b691bf1f8314386a17cfe86e015d0432b4d34a5f",
+      "path_adapter": false
+    },
+    "query_multiframe_raycast": {
+      "module": "matching",
+      "original_ast_sha256": "a4cffaa67b0bd22194638e0680137d36c672b33143ed69162c3abd9fd34f0186",
+      "path_adapter": false
+    },
+    "_estimate_multiframe_3d_utm_anchor_attempt": {
+      "module": "matching",
+      "original_ast_sha256": "ac7c17e8cb2e4f603382acc8c895de7107f64d5462f11f3935f411f73f61a20e",
+      "path_adapter": true
+    },
+    "estimate_multiframe_3d_utm_anchor": {
+      "module": "matching",
+      "original_ast_sha256": "d0a0edd0ec0ff9a0ed2db300f74f1559edc1fb8802be455f6a12b7d5b02b3d0e",
+      "path_adapter": false
+    },
+    "fuse_bev_and_multiframe_candidates": {
+      "module": "matching",
+      "original_ast_sha256": "4ddcd287987edf267788cdbcbc6c03c94653416a90deb29c5840a8ba70ccd57a",
+      "path_adapter": false
+    },
+    "metric_scale_multiplier_for_dataset": {
+      "module": "pipeline",
+      "original_ast_sha256": "e67214db5fbd4bcc76f671870388e0ac116c153ad1fb81f80a160c152901ec11",
+      "path_adapter": false
+    },
+    "sim2_from_first_gt": {
+      "module": "pipeline",
+      "original_ast_sha256": "9209fca585dc6570092cb87567a9233bdb17fd788bb68e41d663792d67d18a41",
+      "path_adapter": false
+    },
+    "prior_from_shared_last_pose": {
+      "module": "pipeline",
+      "original_ast_sha256": "14eeda0f4877b19ba3f3863a07c747654786879d2bc4d5aeb083092993705266",
+      "path_adapter": false
+    },
+    "prior_from_overlap": {
+      "module": "pipeline",
+      "original_ast_sha256": "8f31c95e0ea89ad0dc4fa34c1314137a3ce772cd831520a1c8bf79a92d19dbd7",
+      "path_adapter": false
+    },
+    "prior_from_ly_accepted_anchor_map": {
+      "module": "pipeline",
+      "original_ast_sha256": "7637b01a6705bdea2defafdd0a98590eff8d2a26a0152f65a27e3fa65cf45c83",
+      "path_adapter": false
+    },
+    "interpolate_orthophoto_for_matching": {
+      "module": "matching",
+      "original_ast_sha256": "ca4640650b614cf31c85463930210be62174b2c3dba58255ada7d820a0369bc0",
+      "path_adapter": false
+    },
+    "postprocess_orthophoto_for_matching": {
+      "module": "matching",
+      "original_ast_sha256": "71fe78a330400a284833dd9a75aa0a53d35619d19617141c8b5f53d7d6d488e2",
+      "path_adapter": false
+    },
+    "rasterize_prior_bev": {
+      "module": "matching",
+      "original_ast_sha256": "e0e149c72d62c911f8aa49336b15a3bc231ca13c58ed19a11f0617d66262438b",
+      "path_adapter": false
+    },
+    "pixels_to_utm": {
+      "module": "matching",
+      "original_ast_sha256": "1795741f61dc124cef7627dde5854ece790e84232109bbdb0c94313cb2b59b56",
+      "path_adapter": false
+    },
+    "mask_bbox_center_xy": {
+      "module": "matching",
+      "original_ast_sha256": "a392ff14be73a8025f591a53ef370978dd9f2395f4a516576025787b212603e0",
+      "path_adapter": false
+    },
+    "save_rgb_point_cloud_ply": {
+      "module": "matching",
+      "original_ast_sha256": "f6c611b096d5fdf3683b33cbc8a1251a66760cb67f341b4b2e22771461dca441",
+      "path_adapter": false
+    },
+    "merge_utm_point_clouds_without_alignment": {
+      "module": "matching",
+      "original_ast_sha256": "dfa47888de4f528e56d2e524ed3587cecb895cf7fde9b629df6e71a6696cb518",
+      "path_adapter": false
+    },
+    "save_matches": {
+      "module": "matching",
+      "original_ast_sha256": "680c759af3fce89c6d49082f6e8625f79e928ed20f412b77f0ca3f401946ca31",
+      "path_adapter": false
+    },
+    "save_crop_alignment_debug": {
+      "module": "matching",
+      "original_ast_sha256": "d0d5f34ac1f9fd2aa40b073550be02e1af65db648580f1e50185b03ceaa868cd",
+      "path_adapter": false
+    },
+    "crop_satellite_to_bev_footprint": {
+      "module": "matching",
+      "original_ast_sha256": "755ce88fab2da5c97b9248293bf208c96ffd9aa70e381d41dd40df90657899d7",
+      "path_adapter": false
+    },
+    "match_bev_anchor": {
+      "module": "matching",
+      "original_ast_sha256": "f2e67559228c260312160a796a828dec4739a88a6f1ba84a11c88966a2b65abf",
+      "path_adapter": true
+    },
+    "_template_structure_gray": {
+      "module": "matching",
+      "original_ast_sha256": "09f918d63d2b9f3e7bcaedaa89167fc66e3bbd8219fe2df49121b334f5821346",
+      "path_adapter": false
+    },
+    "_rotate_template_expanded": {
+      "module": "matching",
+      "original_ast_sha256": "64cbea284613df2668c39a3c88e431eb4f869c14ed5e1db195d6ce516a37b991",
+      "path_adapter": false
+    },
+    "_extract_template_peaks": {
+      "module": "matching",
+      "original_ast_sha256": "f13d187acf2d537b08fd250a53131a1109dab71a937328dd5ed899afa5f4a85c",
+      "path_adapter": false
+    },
+    "_save_template_anchor_overlay": {
+      "module": "matching",
+      "original_ast_sha256": "1b6b726f1b9665447bfb61e580181e1ba547213d066f349c7f7c2c41dde13f3a",
+      "path_adapter": false
+    },
+    "cleanup_template_anchor_outputs": {
+      "module": "matching",
+      "original_ast_sha256": "55e0b1f82aa149343ac0de85677ae58eba93423414e4821f21f207745985e34d",
+      "path_adapter": false
+    },
+    "match_bev_anchor_template": {
+      "module": "matching",
+      "original_ast_sha256": "3e4f4012a23ca8fe158aa8bd713e5013bebec1331f69cf5ba6146ac3470d47e9",
+      "path_adapter": false
+    },
+    "yaw_from_forward": {
+      "module": "geometry",
+      "original_ast_sha256": "388b2194162a3acb325631c9ba214a7b8507b4fc407568756fce62eaee55a110",
+      "path_adapter": false
+    },
+    "make_bev_rescue_snapshot": {
+      "module": "matching",
+      "original_ast_sha256": "3d4f631d23d41030a0c010eddce3df5f762fcc37a0b5bc8ab071246616557b26",
+      "path_adapter": false
+    },
+    "compare_bev_rescue_snapshots": {
+      "module": "matching",
+      "original_ast_sha256": "112427acb8a03a07c0fdcff99255603571b40b230a433634fa56bf4c6dbb98a9",
+      "path_adapter": false
+    },
+    "interpolate_sim2_per_frame": {
+      "module": "geometry",
+      "original_ast_sha256": "df57b7c5ef9bbd08596c88534d49fb4026c4dcdccb4f1b52a5b98c7cecc4d0ab",
+      "path_adapter": false
+    },
+    "apply_framewise_sim2": {
+      "module": "geometry",
+      "original_ast_sha256": "0e93496e324a3f15d980d98d8d1315e7ffbece8567865540408b5fba828a13a1",
+      "path_adapter": false
+    },
+    "yaw_from_forward_framewise": {
+      "module": "geometry",
+      "original_ast_sha256": "49f43c9e9d7e7087960b7798a78e2c47d93132592d9cbbbd19ec34a14fd55f21",
+      "path_adapter": false
+    },
+    "camera_to_body_rotation_opencv": {
+      "module": "geometry",
+      "original_ast_sha256": "49c2c74a80ec0b827eda9b75a03feea1c1cc3514621ede696096d54a827193a7",
+      "path_adapter": false
+    },
+    "body_to_gt_ypr": {
+      "module": "geometry",
+      "original_ast_sha256": "cb4e40a2a469d701d5d00d107e2f83856bcb87c4c6b4e9a748b39bef0d8b2380",
+      "path_adapter": false
+    },
+    "vggt_window_ypr": {
+      "module": "geometry",
+      "original_ast_sha256": "94d9db854ade7828dcf140a6682bc61922675a0d6348cdbb4f0ac3a8871825b5",
+      "path_adapter": false
+    },
+    "build_middle_frame_pitch_crop_prior": {
+      "module": "matching",
+      "original_ast_sha256": "d710b7c990d7bc9bc729af322d05f2381fa4c36e72aa2bb01dd9dcd1b0a7e30e",
+      "path_adapter": false
+    },
+    "save_window_attitude_csv": {
+      "module": "reporting",
+      "original_ast_sha256": "fe265cba8cab02422736e25a2801e7ef6ab05c87419b20cf0845609aaa4ca7a2",
+      "path_adapter": false
+    },
+    "_vggt_pad_preprocess_affine": {
+      "module": "reporting",
+      "original_ast_sha256": "749a2136d7ceb3c9aa65edccc932d5d32b4b9ac130caad19245b145f712e70f3",
+      "path_adapter": false
+    },
+    "save_window_vggt_intrinsics_csv": {
+      "module": "reporting",
+      "original_ast_sha256": "feac7ef2996ba966d87edc7b60c452085bf4334c1c0a0ca4dcb3c689eef8e06a",
+      "path_adapter": false
+    },
+    "circular_weighted_mean": {
+      "module": "geometry",
+      "original_ast_sha256": "ac97fa0758ecd9c3634b9156febc235a7f9783da2012b5428d9f659db2a682a8",
+      "path_adapter": false
+    },
+    "_metrics_summary_row": {
+      "module": "reporting",
+      "original_ast_sha256": "350e144220735e0745883fe7f07b6770bcd01efc69e7f1f48d0e57b124cf4f91",
+      "path_adapter": false
+    },
+    "collect_window_pitch_comparison": {
+      "module": "reporting",
+      "original_ast_sha256": "83aa8145c6d5be760209fa058c4835adb62ce584e1ff8be5c2c1f66beb56e4e8",
+      "path_adapter": false
+    },
+    "pitch_error_summary": {
+      "module": "reporting",
+      "original_ast_sha256": "246f8464028b55758521127c3a6de2f4393f470d3c2d1171ace374346a1dfa73",
+      "path_adapter": false
+    },
+    "save_comparison_csv_reports": {
+      "module": "reporting",
+      "original_ast_sha256": "868f6d751f6b0b1ed0917f8d077ec20d3400849fdfef081849637e7122246c00",
+      "path_adapter": false
+    },
+    "print_metrics_comparison": {
+      "module": "reporting",
+      "original_ast_sha256": "66ce39ccba08f4b21c378ce36bb5148b3ddccad066e1ea7b204d97da0403bdc8",
+      "path_adapter": false
+    },
+    "_anchor_scalar": {
+      "module": "reporting",
+      "original_ast_sha256": "db506fd71ec0f98d5403583976b6bc5a1f1a5fb82007949b2f8a4a48a941df1c",
+      "path_adapter": false
+    },
+    "_anchor_xy_fields": {
+      "module": "reporting",
+      "original_ast_sha256": "456a082c7cfee90f57fb8efec9e3beabfad4f90105ef155c2f1cd6fc6eb367ad",
+      "path_adapter": false
+    },
+    "save_anchor_diagnostics_csv": {
+      "module": "reporting",
+      "original_ast_sha256": "52bad4d5ee0b70d84ba808b6ec0a820e2fe6df5c39cb4eeb34ecedb4116d2d2e",
+      "path_adapter": false
+    },
+    "optimize_global_positions": {
+      "module": "pipeline",
+      "original_ast_sha256": "9b9d9f5e1924b20c768d4d115447e7cb33a634342516c3ceac39a657a134ba16",
+      "path_adapter": false
+    },
+    "find_vggt_safetensors": {
+      "module": "pipeline",
+      "original_ast_sha256": "66206985b1bbe70e9d6dab5e84f4597bb2b951c29b8b90615fe03da50e643e46",
+      "path_adapter": false
+    },
+    "load_vggt_once": {
+      "module": "pipeline",
+      "original_ast_sha256": "ae98eb7e8f71124ea5b1d102576767482cb05dcdbdf9b992cc92998700ceeabb",
+      "path_adapter": true
+    },
+    "safe_path_name": {
+      "module": "pipeline",
+      "original_ast_sha256": "20b24e32e3780dfad301456e5945691ce38c323fef4e339f8e81a97990003072",
+      "path_adapter": false
+    },
+    "load_debug_failure_dataset_names": {
+      "module": "pipeline",
+      "original_ast_sha256": "bd41eda3935303b69a6fa9f93495ddcefd451a66e00427b08fddaf2c3dc54e75",
+      "path_adapter": false
+    },
+    "discover_batch_datasets": {
+      "module": "pipeline",
+      "original_ast_sha256": "3e1b4309f5ae74035c7c06fde90c7602558650df3de2eef9a4a9122f101095dd",
+      "path_adapter": false
+    },
+    "create_runtime_context": {
+      "module": "pipeline",
+      "original_ast_sha256": "5e8d91a7a83be11365e1ed081f3b560f00769f0e6cd6e545c2604d8f8428dc94",
+      "path_adapter": true
+    },
+    "classify_first_window_orbit_motion": {
+      "module": "pipeline",
+      "original_ast_sha256": "64262d682c2e4f78363563990710de6e88a7cdece84da7eeb7f1b71eda6b8456",
+      "path_adapter": false
+    },
+    "run_pipeline": {
+      "module": "pipeline",
+      "original_ast_sha256": "890d7d2a22aee1894fc337a95077f655be199f21a3e2d91922f0b64e569f5ba6",
+      "path_adapter": false
+    },
+    "aggregate_per_frame_metrics": {
+      "module": "reporting",
+      "original_ast_sha256": "40927609ea6f9c05139f66d1c57ad893427c9af5f59938a22572c6ef4af6db66",
+      "path_adapter": false
+    },
+    "flatten_sequence_metric": {
+      "module": "reporting",
+      "original_ast_sha256": "a37ac9dbd1429a895f696e7fd1a3da8578bfae0c379ce1eca0f1251637a96b2f",
+      "path_adapter": false
+    },
+    "save_batch_reports": {
+      "module": "reporting",
+      "original_ast_sha256": "bf750e8429fa8461422e440df3cf17665da8980423f9218db74170476ad93a43",
+      "path_adapter": false
+    },
+    "run_batch": {
+      "module": "pipeline",
+      "original_ast_sha256": "21d27398a707a7adc95fabedec99f11617581cdec945645cb72565ae8dbe7128",
+      "path_adapter": false
+    }
+  },
+  "path_adapters": {
+    "_estimate_multiframe_3d_utm_anchor_attempt": "Only import/resource paths were adapted.",
+    "match_bev_anchor": "Only import/resource paths were adapted.",
+    "load_vggt_once": "Only import/resource paths were adapted.",
+    "create_runtime_context": "Only import/resource paths were adapted."
+  },
+  "support_files": {
+    "src/scalloc/reconstruction.py": "296aec1f6822df91e61a79472c3450de1bca5e54c1e5e1f4831cb6415e6fca56",
+    "src/scalloc/map_utils.py": "93a2c8d4df7a0ed38b6ba5e68d399503fe6e4a62d3552dfd9742f82198a10f9a",
+    "src/scalloc/image_io.py": "bf37631a64a034381b34253ead868ac22843bb8f8ad7fcea48bc8d795d0088a9",
+    "src/scalloc/geometry_io.py": "636a87f172c660d828e1c99119a3e03d02da33289e84bb69f1d94369df72046e"
+  },
+  "vendor_files": [
+    {
+      "source": "vggt/vggt/dependency/__init__.py",
+      "destination": "third_party/vggt/vggt/dependency/__init__.py",
+      "sha256": "3302fe9db9c9a08956c81e3ee7a3cd3fde0e830ab65f692cc89959c984464da1"
+    },
+    {
+      "source": "vggt/vggt/dependency/distortion.py",
+      "destination": "third_party/vggt/vggt/dependency/distortion.py",
+      "sha256": "d95ab35395ea5887138e0855599298a91d55bb9c49e0c4025af5f2e1879bf5e8"
+    },
+    {
+      "source": "vggt/vggt/dependency/np_to_pycolmap.py",
+      "destination": "third_party/vggt/vggt/dependency/np_to_pycolmap.py",
+      "sha256": "bbb233d3a36aad00a89caf252ecc7e3ba6518bbd3c9be32eaf3efe46ef3a3b3d"
+    },
+    {
+      "source": "vggt/vggt/dependency/projection.py",
+      "destination": "third_party/vggt/vggt/dependency/projection.py",
+      "sha256": "000536f56bdaa25b6f53b388c385d97f828e7b17f47d45dfd9deeeca702732c7"
+    },
+    {
+      "source": "vggt/vggt/dependency/track_modules/__init__.py",
+      "destination": "third_party/vggt/vggt/dependency/track_modules/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "vggt/vggt/dependency/track_modules/base_track_predictor.py",
+      "destination": "third_party/vggt/vggt/dependency/track_modules/base_track_predictor.py",
+      "sha256": "55dae69b226352e4a7d78fc4444a45d3b9decb054c78785ad09a9ea3943779e7"
+    },
+    {
+      "source": "vggt/vggt/dependency/track_modules/blocks.py",
+      "destination": "third_party/vggt/vggt/dependency/track_modules/blocks.py",
+      "sha256": "52f7c528830c57131393a33c3a0a2add6af27e04f77b754cf2c636cccaedc0e4"
+    },
+    {
+      "source": "vggt/vggt/dependency/track_modules/modules.py",
+      "destination": "third_party/vggt/vggt/dependency/track_modules/modules.py",
+      "sha256": "3fed3272583f4ff98e149105439548f75221f7fab49d34a140571fb630ba0629"
+    },
+    {
+      "source": "vggt/vggt/dependency/track_modules/track_refine.py",
+      "destination": "third_party/vggt/vggt/dependency/track_modules/track_refine.py",
+      "sha256": "9eb0f1be662c2665402b61980001f118e61d4b02e051caf1f0de7c9e1b38ae37"
+    },
+    {
+      "source": "vggt/vggt/dependency/track_modules/utils.py",
+      "destination": "third_party/vggt/vggt/dependency/track_modules/utils.py",
+      "sha256": "d6f2f2c87000d96c6e744e658c338416dbd05626b8df66b9c979132e4ab25d3a"
+    },
+    {
+      "source": "vggt/vggt/dependency/track_predict.py",
+      "destination": "third_party/vggt/vggt/dependency/track_predict.py",
+      "sha256": "8ee1dc033ef059a895c8176625e13d7bcef135a59c1bb30b6ecf75c8a09fc628"
+    },
+    {
+      "source": "vggt/vggt/dependency/vggsfm_tracker.py",
+      "destination": "third_party/vggt/vggt/dependency/vggsfm_tracker.py",
+      "sha256": "6ca09da1d20e4fd2aceb3e7a0ea240738d5d2a766ce5d378ee548a41bf64b283"
+    },
+    {
+      "source": "vggt/vggt/dependency/vggsfm_utils.py",
+      "destination": "third_party/vggt/vggt/dependency/vggsfm_utils.py",
+      "sha256": "6a5bf8d2a669672aae8cfc4e66192a065a3f64268792fe5b64f86fe326d1b569"
+    },
+    {
+      "source": "vggt/vggt/heads/camera_head.py",
+      "destination": "third_party/vggt/vggt/heads/camera_head.py",
+      "sha256": "d177f3d64d53210209b7bbb8496faaaec91f3fc51d04a4ee8d9d6b70f053e132"
+    },
+    {
+      "source": "vggt/vggt/heads/dpt_head.py",
+      "destination": "third_party/vggt/vggt/heads/dpt_head.py",
+      "sha256": "b83ff030043f2ba808afb0c0ebc2f40f1d2ddc9d0b4b847bdfd53670f2d03e17"
+    },
+    {
+      "source": "vggt/vggt/heads/head_act.py",
+      "destination": "third_party/vggt/vggt/heads/head_act.py",
+      "sha256": "428bdb087f457b809a66e22d7d01147c1cb4dab43bb0d98bc61c7f05d8383a1e"
+    },
+    {
+      "source": "vggt/vggt/heads/track_head.py",
+      "destination": "third_party/vggt/vggt/heads/track_head.py",
+      "sha256": "5838f10401ad4c614e5608314f7b27b9195af8839e8bbb3321bfb6aad41a3e59"
+    },
+    {
+      "source": "vggt/vggt/heads/track_modules/__init__.py",
+      "destination": "third_party/vggt/vggt/heads/track_modules/__init__.py",
+      "sha256": "3cb62676c3fad403516673b2e99cdb6cbc0b71f814c3bb7f551bfa1e8495e062"
+    },
+    {
+      "source": "vggt/vggt/heads/track_modules/base_track_predictor.py",
+      "destination": "third_party/vggt/vggt/heads/track_modules/base_track_predictor.py",
+      "sha256": "8afb4311f71b74a85a2faf12386e72a782678e8d5e223a95645b951e6fbae185"
+    },
+    {
+      "source": "vggt/vggt/heads/track_modules/blocks.py",
+      "destination": "third_party/vggt/vggt/heads/track_modules/blocks.py",
+      "sha256": "7c00a9edec0c4ce0ba773063ba72e578004731dc3f9a6386478f2c1d2f06e948"
+    },
+    {
+      "source": "vggt/vggt/heads/track_modules/modules.py",
+      "destination": "third_party/vggt/vggt/heads/track_modules/modules.py",
+      "sha256": "3b86a7580cee368ddb97a37a879b82943a8f82ca539979ecdd3218c27a4aa811"
+    },
+    {
+      "source": "vggt/vggt/heads/track_modules/utils.py",
+      "destination": "third_party/vggt/vggt/heads/track_modules/utils.py",
+      "sha256": "0480f9c7a452310affc4cf4566c6ba37fde80675c476123ee61a4eab121f4917"
+    },
+    {
+      "source": "vggt/vggt/heads/utils.py",
+      "destination": "third_party/vggt/vggt/heads/utils.py",
+      "sha256": "2dce4c0dca1974a5250cc5d5d95bd3417e3ba9494978437a12d5ab6bbff4d4df"
+    },
+    {
+      "source": "vggt/vggt/layers/__init__.py",
+      "destination": "third_party/vggt/vggt/layers/__init__.py",
+      "sha256": "e3c28c7b775165b6844000eb69f44d104d6c3803ac7da5d59f6ac3ecfb46d9d8"
+    },
+    {
+      "source": "vggt/vggt/layers/attention.py",
+      "destination": "third_party/vggt/vggt/layers/attention.py",
+      "sha256": "883b82b8fd1d833e4b7060a97cff44aa677288e2f91415763d0deac48d111469"
+    },
+    {
+      "source": "vggt/vggt/layers/block.py",
+      "destination": "third_party/vggt/vggt/layers/block.py",
+      "sha256": "4f2303fb83b63655d17aac7d4937772093dcc5b27c73b6ea2f727a4068131b51"
+    },
+    {
+      "source": "vggt/vggt/layers/drop_path.py",
+      "destination": "third_party/vggt/vggt/layers/drop_path.py",
+      "sha256": "b9f8236e86054b9d9a71275efcad2a9ecaa1f86b529d4b8d6109ddb5e806f67a"
+    },
+    {
+      "source": "vggt/vggt/layers/layer_scale.py",
+      "destination": "third_party/vggt/vggt/layers/layer_scale.py",
+      "sha256": "83586eaa81ef11828b1001f3dd85747ba362df23ddb57c8454b2eba279f5a558"
+    },
+    {
+      "source": "vggt/vggt/layers/mlp.py",
+      "destination": "third_party/vggt/vggt/layers/mlp.py",
+      "sha256": "255825c73b60a916dd00eb1e38aacbcdbf316e40d6a005efb46e245b7edb43aa"
+    },
+    {
+      "source": "vggt/vggt/layers/patch_embed.py",
+      "destination": "third_party/vggt/vggt/layers/patch_embed.py",
+      "sha256": "c2543ec293951d081db662b2125027625f6e632971630facaa7f911c2377d335"
+    },
+    {
+      "source": "vggt/vggt/layers/rope.py",
+      "destination": "third_party/vggt/vggt/layers/rope.py",
+      "sha256": "c56b073724f4d56cc531e381835a2c3dc348f192aefd9e855e3e59ab3c7d6641"
+    },
+    {
+      "source": "vggt/vggt/layers/swiglu_ffn.py",
+      "destination": "third_party/vggt/vggt/layers/swiglu_ffn.py",
+      "sha256": "af287ee5b7e6a2a5608ed78cf8d392a00191718825a3889c224ccaa0fd914089"
+    },
+    {
+      "source": "vggt/vggt/layers/vision_transformer.py",
+      "destination": "third_party/vggt/vggt/layers/vision_transformer.py",
+      "sha256": "857932a5a7cf8fa062535464b4831493544715cdfb729648a83a10098a5eae87"
+    },
+    {
+      "source": "vggt/vggt/models/aggregator.py",
+      "destination": "third_party/vggt/vggt/models/aggregator.py",
+      "sha256": "c994d7231eda2380f208355a64bce3cd7c4b97ef06393355e632415bfc1513e5"
+    },
+    {
+      "source": "vggt/vggt/models/vggt.py",
+      "destination": "third_party/vggt/vggt/models/vggt.py",
+      "sha256": "3c74b674079f7bdda25c53fb023b36a65d2b3120c9318b616a68aaf438b644fe"
+    },
+    {
+      "source": "vggt/vggt/utils/geometry.py",
+      "destination": "third_party/vggt/vggt/utils/geometry.py",
+      "sha256": "c6f505182e4e926629c04adbdf633eb80238da3a3c87eb8337b6f130ab01ab93"
+    },
+    {
+      "source": "vggt/vggt/utils/helper.py",
+      "destination": "third_party/vggt/vggt/utils/helper.py",
+      "sha256": "5182cf8d6a35b9100922d8056c6d91cdfda2b53ff5dde21c061e976e47ef0bb0"
+    },
+    {
+      "source": "vggt/vggt/utils/load_fn.py",
+      "destination": "third_party/vggt/vggt/utils/load_fn.py",
+      "sha256": "d57b7a16c2e04333a2e68d365aa21f1dd61759e984f744cbcbe6b66d787f37ef"
+    },
+    {
+      "source": "vggt/vggt/utils/pose_enc.py",
+      "destination": "third_party/vggt/vggt/utils/pose_enc.py",
+      "sha256": "845fc3a46cb851bebf0720b8fc2b9f34334ae8e11f1982376ba59f90ff18f22b"
+    },
+    {
+      "source": "vggt/vggt/utils/rotation.py",
+      "destination": "third_party/vggt/vggt/utils/rotation.py",
+      "sha256": "ad3a904e243c6654f0aa5f1d0206ace5f2d61011bc1bf8f492b40e0b76cb2070"
+    },
+    {
+      "source": "vggt/vggt/utils/visual_track.py",
+      "destination": "third_party/vggt/vggt/utils/visual_track.py",
+      "sha256": "b6b6103f62dfa470565100a1c6166c87fad234fcef75ffb78af70157ac2746de"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/__init__.py",
+      "sha256": "6109e5cd748f4402d237823c67005869ca4925d3d0a93f3a27b55ea65c819be2"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/checkpointing/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/checkpointing/__init__.py",
+      "sha256": "76d5aa36ec12d9aab0b9cff5f14849c516743edf4c873a01421cb87bc0d06742"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/checkpointing/checkpoint.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/checkpointing/checkpoint.py",
+      "sha256": "7e2ce7419228d58f5fb788033da006a687fdedf4e5aecc8f562b599be04b9898"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/datasets/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/datasets/__init__.py",
+      "sha256": "bb4a783a8cf3fad1d622687c7b67c6ba8dde2016425e1527fc01f51790ac8752"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/datasets/megadepth.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/datasets/megadepth.py",
+      "sha256": "4000254597d06148f47fe2e85245244bc8e7fac0bd19a60992ab7a28109db658"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/datasets/scannet.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/datasets/scannet.py",
+      "sha256": "4597909dbf7b23cc884977ff6b863db1ddef7da581b87c320ad375ad9c31af36"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/losses/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/losses/__init__.py",
+      "sha256": "cf8213e9f45c263026697770346d50c4b70319ad83187006cbcaea8cdb09b332"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/losses/robust_loss.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/losses/robust_loss.py",
+      "sha256": "637c37d177593dcb74ae0e984b1f0320a9372bda57c0f920d0f38c3b459c2865"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/losses/robust_loss_tiny_roma.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/losses/robust_loss_tiny_roma.py",
+      "sha256": "dcba28e7dac8222e11354c7587298e37a972225542bffd602b1dc0b948095d20"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/__init__.py",
+      "sha256": "0641a484dd03c6fd4b99fff0e92360aa8492cad8c5510727b69f2fbdfc66b226"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/encoders.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/encoders.py",
+      "sha256": "423c065b44b6b6dfb226cfe1ab5e71f1aa1c02ad81f82e507ac1d6f3bab2af93"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/matcher.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/matcher.py",
+      "sha256": "b54617793f25dbbfedc1c0be785a6e5cc804d2609b1e28e7fede1106b9310212"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/model_zoo/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/model_zoo/__init__.py",
+      "sha256": "1d990f853bdee88794ced9d6ef208d570d8f4785e937352b93e08f7fddd72c4f"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/model_zoo/roma_models.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/model_zoo/roma_models.py",
+      "sha256": "a9058835af4f9de35cc8a3b8356637a7218515eb8cf8bb9ea48d51f58bbb7bae"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/tiny.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/tiny.py",
+      "sha256": "59a5cbd4bf167742bee0309ac3c6d34745af6e1e67a10cc4b93e65278b7974f6"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/__init__.py",
+      "sha256": "178ef49b71f15d2c1b3e22261062c252830a4b0c91e0cf537ee479ba9cfc2f3d"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/dinov2.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/dinov2.py",
+      "sha256": "4b7d20d2fc7dc725fbe081ca14ea3763cf02433bb3c2bcebb766b977b0e5edce"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/__init__.py",
+      "sha256": "34312c0841b7ab254915b34b197072ade6984e28e2c718315793bdbaa34339bc"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/attention.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/attention.py",
+      "sha256": "f7d2488371553b3bb1467c501cafa15a0b3e2db7073862eca1b52995f7a5cd70"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/block.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/block.py",
+      "sha256": "2055b6377ff4ec3db86d2d2acd61e30eedecee7d0b194a01a3f349734543f721"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/dino_head.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/dino_head.py",
+      "sha256": "5e1ca23565a0bcfd2ac1d79bfbe67c845e50582f4efe0bb1df2324bf4d4d98a8"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/drop_path.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/drop_path.py",
+      "sha256": "27abed4dd9dafa14157c9c7717bdca15fedb62702066f627b314bc91c06a1d53"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/layer_scale.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/layer_scale.py",
+      "sha256": "a79f5b673c3f1fa60173b1905501ecfeb7fe77bed9b5e35881390c12baecbdfa"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/mlp.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/mlp.py",
+      "sha256": "9856d7274ca32428ff05dacf7adf8ad10fa81d7bb4e5d299ab57cf421dcc7620"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/patch_embed.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/patch_embed.py",
+      "sha256": "2d949ea0eff33185d829995373c963cac6eaebf77b4808478a72934d89587e42"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/models/transformer/layers/swiglu_ffn.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/models/transformer/layers/swiglu_ffn.py",
+      "sha256": "e1744aa9d29610c57d4fa153ec0aa545ef60da565d2aaac754d318fea0e30d7c"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/train/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/train/__init__.py",
+      "sha256": "39c45fbe55e7d94aa69318dec2e6eceffa493847e36ce9850417c23959bb9afd"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/train/train.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/train/train.py",
+      "sha256": "d8ad427218e447529498450b1b6e00fd87488c511d6578d8a1d02e4fcdbbdb4a"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/utils/__init__.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/utils/__init__.py",
+      "sha256": "0099c7261125df7a0b59798647806a92d09fcdb8e06470764f58332291dc3a27"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/utils/kde.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/utils/kde.py",
+      "sha256": "43f8fcd488134649640214080d08e3d2706a6b7d2031ed4bec1cef2d0ed4e703"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/utils/local_correlation.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/utils/local_correlation.py",
+      "sha256": "68e6238af426e89ca13c9046658261c178835937ae4976229cb0dfd83d36696c"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/utils/transforms.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/utils/transforms.py",
+      "sha256": "d87ed4f7877def17502720b81a7f585c2e3ea7f14781664716230479e189209e"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/romatch/utils/utils.py",
+      "destination": "third_party/minima/third_party/RoMa_minima/romatch/utils/utils.py",
+      "sha256": "ed380be13f872c3a51a39b55a00f5f2a54bd4169bd1f3d89f620602517017a7a"
+    },
+    {
+      "source": "vggt/LICENSE.txt",
+      "destination": "third_party/vggt/LICENSE.txt",
+      "sha256": "b94e46746792d1adfa0ebdbccada5d4576d244ae230be9de8a46b5868fff001b"
+    },
+    {
+      "source": "vggt/README.md",
+      "destination": "third_party/vggt/README.upstream.md",
+      "sha256": "56426b9aea25174ccbc4c2c37a3a22107fd8b5ac9dc5a8bf008e7457402ed3bd"
+    },
+    {
+      "source": "Matching_Models/MINIMA/LICENSE",
+      "destination": "third_party/minima/LICENSE",
+      "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6"
+    },
+    {
+      "source": "Matching_Models/MINIMA/README.md",
+      "destination": "third_party/minima/README.upstream.md",
+      "sha256": "0b0bbdd4c2a0e09d67468cc052c3df2f424f005ad188d214daa3e1eedbaa7ed5"
+    },
+    {
+      "source": "Matching_Models/MINIMA/load_model.py",
+      "destination": "third_party/minima/load_model.py",
+      "sha256": "14cefdb9ed9a015f13216b4be10cbd627a25b6fea2285993b760b1952e993b68"
+    },
+    {
+      "source": "Matching_Models/MINIMA/src/config/default.py",
+      "destination": "third_party/minima/src/config/default.py",
+      "sha256": "d4a4647806f790539e61e9cc2e7748217e1504c6cc007813e38aa440214140ce"
+    },
+    {
+      "source": "Matching_Models/MINIMA/src/utils/data_io_roma.py",
+      "destination": "third_party/minima/src/utils/data_io_roma.py",
+      "sha256": "6ff2942dc665ff210253425d8687f7e652cee54d1a0aea1259b51d4888fcc275"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/LICENSE",
+      "destination": "third_party/minima/third_party/RoMa_minima/LICENSE",
+      "sha256": "a1d4c4169aef5e64efef0724aecb829457393d12a3cd8cf4822f1eae4201ac29"
+    },
+    {
+      "source": "Matching_Models/MINIMA/third_party/RoMa_minima/README.md",
+      "destination": "third_party/minima/third_party/RoMa_minima/README.upstream.md",
+      "sha256": "5c648b7f843f68ad56fd063b862d8970758dfd67c305bd148e476821161e2783"
+    },
+    {
+      "source": "DINOv2/LICENSE",
+      "destination": "third_party/minima/third_party/RoMa_minima/LICENSE.DINOv2",
+      "sha256": "600cc67cc4cb2f5ea317dcfc687ad1c74dc4bec8782bbe9db0afd83513b935b7"
+    },
+    {
+      "source": "Matching_Models/MINIMA/__init__.py",
+      "destination": "third_party/minima/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "Matching_Models/MINIMA/src/__init__.py",
+      "destination": "third_party/minima/src/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "Matching_Models/MINIMA/src/utils/__init__.py",
+      "destination": "third_party/minima/src/utils/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "weights_or_dataset_copied": false
+}

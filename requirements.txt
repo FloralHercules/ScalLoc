@@ -1,0 +1,19 @@
+# Install a mutually compatible CUDA-enabled torch/torchvision pair separately.
+numpy
+pandas
+scipy
+opencv-python
+PyYAML
+tqdm
+Pillow
+safetensors
+huggingface-hub
+scikit-learn
+plyfile
+pyproj
+tifffile
+matplotlib
+kornia
+einops
+yacs
+loguru

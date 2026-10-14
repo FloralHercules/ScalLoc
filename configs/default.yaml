@@ -1,0 +1,16 @@
+# Paths are relative to the repository root, not the current shell directory.
+paths:
+  dataset_root: data/Thermal-Oblique/test/changsha
+  reference_map: data/maps/changsha/ref.tif
+  dsm_map: data/maps/changsha/dsm.tif
+  vggt_weights: weights/vggt/model.safetensors
+  minima_weights: weights/minima/minima_roma.pth
+  dinov2_weights: weights/dinov2/dinov2_vitl14_pretrain.pth
+  region_config: configs/regions/changsha.yaml
+  output_root: outputs
+run:
+  datasets: [Rural_Day_Curve_H150_P30_S01]
+  max_windows: 0
+  pitch_max_deg: 0.0
+  height_max_fraction: 0.0
+  vggt_predictions: false
