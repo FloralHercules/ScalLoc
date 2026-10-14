@@ -2,7 +2,7 @@
 
 ## Verified result — 2026-10-14
 
-The reorganized fast ScalLoc implementation was run on the **complete**
+The reorganized ScalLoc implementation was run on the **complete**
 `Rural_Day_Curve_H150_P30_S01` sequence: **138 frames, 13 windows**.
 It was compared with both:
 
@@ -27,13 +27,13 @@ The three `trajectory_per_frame_comparison.csv` files also have identical bytes:
 SHA256 23ba38ef0a824c598f7ed93ad0ea5cc71573281ce06a6f1689d815dc68efadea
 ```
 
-This validates **one complete trajectory and the default fast profile**, not all
-216 trajectories, every ablation, or another machine. It is not an evaluation of
-the later pure-VGGT prototype and does not establish a new accuracy benchmark.
+This validates **one complete trajectory and the default profile**, not all
+216 trajectories, every ablation, or another machine. It does not establish
+a new accuracy benchmark.
 
 ## Preserved experiment
 
-- Original fast pipeline, not `ScalLoc-v1_end`.
+- Released ScalLoc pipeline, with the original numerical settings retained.
 - Window size 12, overlap 1, stride 11; complete sequence (`max_windows: 0`).
 - Original fixed-intrinsics track BA, map matching, anchor checks and propagation.
 - Original per-frame pitch and relative-height priors; perturbations disabled.
@@ -126,7 +126,7 @@ python tools/verify_equivalence.py compare --original validation/original_new --
 python -m pip install -r requirements-dev.txt
 python -m pytest -q
 
-# Inspect the code-only upload inventory; no archive or duplicate assets created.
+# Inspect source and documentation assets; no archive or duplicate data created.
 python tools/check_release.py --manifest validation/release_manifest.json
 ```
 

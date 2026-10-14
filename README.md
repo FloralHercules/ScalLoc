@@ -1,174 +1,187 @@
-# ScalLoc
+# ScalLoc: Continuous Oblique Thermal UAV Geo-Localization with a 2D Satellite Map
 
-Thermal-oblique UAV localization with VGGT geometry and satellite-map matching.
+<p align="center">
+  <strong>Xiaoran Zhang · Yu Liu · Jinyu Liang · Huaxin Xiao</strong>
+</p>
 
-This repository packages the original **fast ScalLoc pipeline** for the **Thermal-Oblique** dataset. It reorganizes the runnable implementation into focused Python modules, configurable asset paths, and a command-line entry point. Datasets, satellite maps, model weights, caches, and experiment outputs are **not included**.
+<p align="center">
+  <a href="https://arxiv.org/abs/2610.14866"><img src="https://img.shields.io/badge/arXiv-2610.14866-b31b1b.svg" alt="arXiv paper"></a>
+  <a href="https://huggingface.co/datasets/FloralHercules/Thermal-Oblique"><img src="https://img.shields.io/badge/Hugging%20Face-Thermal--Oblique-ffd21e.svg" alt="Thermal-Oblique on Hugging Face"></a>
+</p>
 
-> This is the original fast pipeline, not `ScalLoc-v1_end` and not the later experimental pose-refinement prototype. Its original numerical settings and processing logic are intended to remain unchanged. See [reproducibility](docs/REPRODUCIBILITY.md) for the actual regression-test status and results; restructuring alone is not evidence of equivalent predictions.
+<p align="center">
+  <a href="https://arxiv.org/abs/2610.14866">Paper</a> ·
+  <a href="https://arxiv.org/pdf/2610.14866">PDF</a> ·
+  <a href="https://huggingface.co/datasets/FloralHercules/Thermal-Oblique">Dataset &amp; Weights</a> ·
+  <a href="docs/README_zh.md">中文说明</a>
+</p>
 
-[中文说明](docs/README_zh.md) · [Data and weights](docs/DATA_AND_WEIGHTS.md) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [License status](LICENSE_NOTICE.md)
+Official implementation of **ScalLoc**, a scale-aligned local-to-map framework for continuous oblique thermal UAV geo-localization. Given a thermal sequence and a geo-referenced **2D satellite map**, ScalLoc reconstructs local geometry, refines camera poses, anchors windows to the map, and propagates validated states to recover a global trajectory. No digital surface model or preconstructed 3D map is required.
 
-## Pipeline
+## Framework
+
+<p align="center">
+  <img src="assets/ScalLoc.png" width="100%" alt="ScalLoc framework: VGGT window reconstruction, track-based pose refinement, motion-adaptive satellite anchoring, and window propagation">
+</p>
+
+ScalLoc combines four stages:
+
+1. **Window reconstruction.** VGGT estimates camera poses, dense geometry, and cross-frame tracks from consecutive thermal images.
+2. **Track-based pose refinement.** Fixed-intrinsics pose optimization improves the local trajectory using sparse tracks and fixed local 3D landmarks.
+3. **Motion-adaptive satellite anchoring.** MINIMA-RoMa supplies cross-modal correspondences for BEV-to-satellite alignment or direct multi-frame 3D-to-map alignment, depending on the motion type.
+4. **Validation and propagation.** Accepted map corrections align the local window to global coordinates; shared boundary frames transfer the state to subsequent windows.
+
+The default configuration uses 12-frame windows with one-frame overlap, track-based refinement, and pitch/relative-height priors from the frame metadata. Perturbations are disabled by default.
+
+In the [paper](https://arxiv.org/abs/2610.14866), ScalLoc achieves a frame-weighted mean position error of **26.97 m**, compared with **112.69 m** for the VGGT-only configuration (**76.07% reduction**). These are paper-reported results; the separate code-restructuring regression check is documented in [Reproducibility](docs/REPRODUCIBILITY.md).
+
+## Thermal-Oblique Dataset
+
+**Thermal-Oblique** contains **216 trajectories** and **28,112 thermal frames** with frame-level annotations. It covers urban and rural scenes, daytime and nighttime conditions, and straight, curved, and orbiting flight paths.
+
+<p align="center">
+  <img src="assets/Thermal-Oblique.png" width="100%" alt="Thermal-Oblique dataset: geographic coverage, straight/curve/orbit trajectories, and thermal sequence examples">
+</p>
+
+### Download
+
+- **Dataset, satellite map, and model checkpoints:** [Hugging Face — FloralHercules/Thermal-Oblique](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique).
+- **Placement instructions and checkpoint hashes:** [Data and weights guide](docs/DATA_AND_WEIGHTS.md).
+- **Baidu Netdisk mirror:** coming soon.
+
+The initial Hugging Face bundle is uploading as of October 14, 2026; download files become available once the upload is committed. The prepared ZIP contains the dataset, the Changsha satellite reference image, and all three required checkpoints. Data and weights are hosted separately from this code repository.
+
+After downloading the bundle, extract its `data/` and `weights/` directories into the repository root:
 
 ```text
-Thermal frames + frame metadata             Satellite reference map
-                 │                                   │
-         VGGT window reconstruction                  │
-                 │                                   │
-       Fixed-intrinsics track BA                     │
-                 │                                   │
-        Metric alignment and stitching               │
-                 └────── MINIMA-RoMa matching ────────┘
-                                  │
-                       Anchor-based correction
-                                  │
-                      Trajectory and evaluation
+ScalLoc/
+├── data/
+│   ├── Thermal-Oblique/test/changsha/
+│   │   └── <sequence>/
+│   │       ├── Thermal/                 # Original thermal frames
+│   │       └── Thermal_info.csv         # Frame-level metadata
+│   └── maps/changsha/
+│       └── ref.tif                      # Geo-referenced satellite map
+└── weights/
+    ├── vggt/model.safetensors
+    ├── minima/minima_roma.pth
+    └── dinov2/dinov2_vitl14_pretrain.pth
 ```
 
-The default profile preserves the original 12-frame windows with one-frame overlap, fixed-intrinsics track BA, anchor logic, and per-frame pitch/relative-height priors used by that implementation. Perturbations are disabled by default. This is **not** a pure-VGGT or first-frame-prior-only experiment. Keep this distinction when reporting or comparing results.
+Keep the original frame filenames and metadata unchanged. `test/changsha` is the released directory organization, not a new geographically held-out split. The default pipeline does not read `dsm.tif`, so no DSM download is needed.
 
-## Quick start
+## Installation
 
-### 1. Prepare Python and dependencies
+```bash
+git clone https://github.com/FloralHercules/ScalLoc.git
+cd ScalLoc
+```
 
-Use an isolated Python environment. The previous local reference run used Python 3.12.9, PyTorch 2.6.0+cu126, torchvision 0.21.0+cu126, and an NVIDIA RTX 4060 Ti with 16 GB VRAM. Those are reference-environment details, not a guarantee of identical results on other hardware or library versions.
-
-Install a matching PyTorch/torchvision pair for your CUDA environment, then install the remaining dependencies:
+Use an isolated Python environment. Install a matching **PyTorch/torchvision** pair for your CUDA environment, then install the remaining dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-For the exact non-PyTorch versions used in the local equivalence test, use
-`requirements-tested.txt` instead. This is a reference snapshot for Python 3.12,
-not a cross-platform lockfile; install the matching PyTorch pair separately.
+The tested environment is **Python 3.12.9**, **PyTorch 2.6.0+cu126**, **torchvision 0.21.0+cu126**, and an **NVIDIA RTX 4060 Ti (16 GB)**. CUDA is strongly recommended. For the tested non-PyTorch dependency versions, use [`requirements-tested.txt`](requirements-tested.txt) instead of `requirements.txt`.
 
-The `run.py` entry point works directly from this checkout; installing the project itself is optional. For development:
+`run.py` works directly from the checkout. An editable installation is optional:
 
 ```bash
 python -m pip install -e . --no-deps
 ```
 
-CUDA is strongly recommended for these large models. CPU execution is not the validated performance target. The vendored dependencies contain only the inference code needed by the default profile, not their complete upstream training toolchains.
+## Checkpoints
 
-### 2. Prepare external assets
+The released configuration requires all three checkpoints:
 
-Follow [Data and weights](docs/DATA_AND_WEIGHTS.md). The expected layout is:
+| Model | Expected file | Role |
+| --- | --- | --- |
+| [VGGT](https://github.com/facebookresearch/vggt) | `weights/vggt/model.safetensors` | Window geometry, poses, and tracks |
+| [MINIMA-RoMa](https://github.com/LSXI7/MINIMA) | `weights/minima/minima_roma.pth` | Thermal-to-satellite matching |
+| [DINOv2 ViT-L/14](https://github.com/facebookresearch/dinov2) | `weights/dinov2/dinov2_vitl14_pretrain.pth` | Matcher backbone |
 
-```text
-data/
-├── Thermal-Oblique/test/changsha/
-│   └── <sequence>/
-│       ├── Thermal/
-│       └── Thermal_info.csv
-└── maps/changsha/
-    ├── ref.tif
-    └── dsm.tif                 # Optional; not read by the default fast pipeline
-weights/
-├── vggt/model.safetensors
-├── minima/minima_roma.pth
-└── dinov2/dinov2_vitl14_pretrain.pth
-```
+Use the files specified in the [asset guide](docs/DATA_AND_WEIGHTS.md) to reproduce the released configuration. Each checkpoint remains subject to its upstream terms.
 
-The default fast pipeline does **not read the DSM**. You can run it without downloading `dsm.tif`. Keep the `paths.dsm_map` field in the configuration as a compatibility placeholder; its file does not need to exist for the default run.
+## Run ScalLoc
 
-To reuse an existing dataset or checkpoint without duplicating it, edit the placeholder paths in `configs/local.example.yaml` and pass that configuration to `run.py`. All relative paths resolve against the **project root**, not the configuration directory or the shell's current directory.
-
-Download locations for the project's Hugging Face and Baidu Netdisk releases are **to be supplied by the author**. No unpublished download URL is implied by this repository.
-
-### 3. Check resources, then run
-
-Check the configured resources without loading either model:
+Check that the dataset, map, and weights are available without loading the models:
 
 ```bash
 python run.py --config configs/default.yaml --check
 ```
 
-Run the default complete curve sequence:
+Run one complete sequence:
 
 ```bash
 python run.py --config configs/default.yaml
 ```
 
-The default sequence is `Rural_Day_Curve_H150_P30_S01` (138 frames in the reference dataset). `max_windows: 0` means all windows. This command does **not** start all 216 sequences.
-
-Common alternatives:
+The default sequence is `Rural_Day_Curve_H150_P30_S01` (138 frames); `max_windows: 0` processes the complete trajectory. To select another sequence or evaluate every available sequence:
 
 ```bash
-# Reuse assets stored outside this checkout.
-python run.py --config configs/local.example.yaml --check
-python run.py --config configs/local.example.yaml
-
-# Choose one sequence, or repeat --dataset for several sequences.
-python run.py --config configs/default.yaml --dataset Rural_Day_Curve_H150_P30_S01
-
-# Short smoke test; not a complete-trajectory evaluation.
-python run.py --config configs/default.yaml --max-windows 1
-
-# Explicitly request every available sequence.
+python run.py --config configs/default.yaml --dataset Urban_Day_Orbit_H200_P40_S02
 python run.py --config configs/default.yaml --all-datasets
+```
 
-# Choose a new output directory.
+For a one-window smoke test or a custom output directory:
+
+```bash
+python run.py --config configs/default.yaml --max-windows 1
 python run.py --config configs/default.yaml --output-dir outputs/my_run
 ```
 
-A non-empty explicit output directory is rejected to avoid overwriting earlier results. Use a fresh directory for each run. Detailed visual/debug artifacts remain disabled in the default fast profile; do not compare timings between runs with different saving policies.
+Use a fresh output directory for each run; existing non-empty directories are not overwritten. Detailed intermediate visualizations are disabled by default. Outputs include trajectory estimates, per-frame comparisons, and sequence metrics.
 
-## Configuration
+### Configuration and external resources
 
-`configs/default.yaml` controls asset locations and the supported run options. `configs/regions/changsha.yaml` contains the geographic reference settings for the supplied Changsha satellite map.
+[`configs/default.yaml`](configs/default.yaml) defines resource paths and run options. [`configs/regions/changsha.yaml`](configs/regions/changsha.yaml) defines the map's geographic reference.
 
-| Setting | Purpose |
-| --- | --- |
-| `paths.dataset_root` | Directory containing the sequence folders |
-| `paths.reference_map` | Required satellite reference image |
-| `paths.dsm_map` | Compatibility path for an optional DSM; not read by the default fast pipeline |
-| `paths.vggt_weights` | VGGT safetensors checkpoint |
-| `paths.minima_weights` | MINIMA-RoMa checkpoint |
-| `paths.dinov2_weights` | DINOv2 ViT-L/14 backbone checkpoint |
-| `run.datasets` | Explicit sequence names |
-| `run.max_windows` | `0` for complete sequences; positive values limit windows |
-| `run.pitch_max_deg` | Original optional pitch-perturbation amplitude; default `0` |
-| `run.height_max_fraction` | Original optional relative-height perturbation amplitude; default `0` |
-| `run.vggt_predictions` | Original VGGT-prediction ablation; default `false` |
+If data and weights are already stored on another disk, copy [`configs/local.example.yaml`](configs/local.example.yaml) to a private `configs/local.yaml`, replace the placeholder paths, and run:
 
-Changing perturbation or prediction-ablation settings changes the experiment. For a refactoring-equivalence test, keep every run option, checkpoint, map, frame order, and dataset file identical.
+```bash
+python run.py --config configs/local.yaml --check
+python run.py --config configs/local.yaml
+```
 
-## Repository structure
+There is no need to duplicate the assets. Relative paths resolve from the **repository root**, not the shell's working directory. See the [asset guide](docs/DATA_AND_WEIGHTS.md) for the full path layout.
+
+## Project Structure
 
 ```text
 ScalLoc/
-├── run.py                     # Public command-line entry point
-├── configs/                   # Run and map-reference configuration
-├── src/scalloc/
-│   ├── configuration.py       # Preserved algorithm defaults
-│   ├── pipeline.py            # Window and sequence orchestration
-│   ├── reconstruction.py      # VGGT reconstruction and track refinement
-│   ├── matching.py            # Satellite matching and anchor decisions
-│   ├── geometry.py            # Geometric transformations and fitting
-│   ├── geometry_io.py         # Original geometry/helper implementation
-│   ├── map_utils.py           # Map coordinates, crops, and transforms
-│   ├── reporting.py           # Trajectory evaluation and output
-│   └── image_io.py            # Image I/O compatibility
-├── third_party/               # Minimal vendored inference dependencies
-├── tests/                     # Refactoring and interface tests
-├── tools/                     # Validation utilities
-├── provenance/                # Source provenance / comparison records
-└── docs/                      # Setup and reproducibility documentation
+├── run.py                    # Command-line entry point
+├── configs/                  # Run options and geographic configuration
+├── src/scalloc/              # Reconstruction, geometry, matching, and reporting
+├── third_party/              # Required upstream inference modules and licenses
+├── assets/                   # Method and dataset figures
+├── data/                     # External dataset and map location
+├── weights/                  # External checkpoint location
+├── tests/                    # Interface and numerical-preservation checks
+├── tools/                    # Release and regression-check utilities
+└── docs/                     # Setup guide and reproducibility details
 ```
 
-Some helper routines remain intentionally close to their original implementation: preserving the numerical behavior takes priority over algorithmic cleanup. Future changes to preprocessing, geometry, random sampling, or model loading should be accompanied by a numerical regression comparison.
+For the measured original-versus-restructured comparison and the commands to repeat it, see [Reproducibility](docs/REPRODUCIBILITY.md). For contributions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Results and reproducibility
+## Citation
 
-Use [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) for the measured comparison between the original and refactored implementations. A successful resource check or import test is not a full inference test. A one-window smoke test is not a complete-trajectory result.
+If you use ScalLoc or Thermal-Oblique in your research, please cite our paper:
 
-The original implementation uses stochastic matching and GPU kernels. Seeds are preserved, but reproducibility across different drivers, hardware, CUDA, or library versions is not promised. Do not replace a checkpoint with a newer similarly named checkpoint when reproducing results.
+```bibtex
+@article{zhang2026scalloc,
+  title   = {ScalLoc: Continuous Oblique Thermal UAV Geo-Localization with a 2D Satellite Map},
+  author  = {Zhang, Xiaoran and Liu, Yu and Liang, Jinyu and Xiao, Huaxin},
+  journal = {arXiv preprint arXiv:2610.14866},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2610.14866}
+}
+```
 
-When reporting a run, retain its configuration, dependency versions, selected sequence names, checkpoint hashes, and final metrics. Do not upload personal absolute-path configurations, dataset metadata, or large outputs as part of the code release.
+## Acknowledgements
 
-## Contributing and license status
+We thank the authors of [VGGT](https://github.com/facebookresearch/vggt), [MINIMA](https://github.com/LSXI7/MINIMA), [RoMa](https://github.com/Parskatt/RoMa), and [DINOv2](https://github.com/facebookresearch/dinov2) for their work and released implementations.
 
-Keep data and weights external, make behavior changes explicit, and separate refactoring-only changes from algorithm changes. Please include a reproducible command and regression evidence with numerical changes. No publication metadata or citation entry is invented here; the author can add the final paper information when available.
+## License
 
-The project's own license has **not yet been selected by the author**. See [LICENSE_NOTICE.md](LICENSE_NOTICE.md) before redistribution or public release. Included third-party code remains subject to its own licenses, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Code and checkpoint licenses can differ.
+The project's own source-code license is pending; see [LICENSE_NOTICE.md](LICENSE_NOTICE.md). Third-party code and checkpoints retain their respective licenses, documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Dataset, map, and checkpoint permissions must be considered separately.

@@ -2,16 +2,22 @@
 
 The code release deliberately excludes all datasets, maps, checkpoints, and generated results. This avoids duplicating large files and keeps the repository suitable for Git hosting.
 
-## Download status
+## Download
+
+**Release page: [Hugging Face — FloralHercules/Thermal-Oblique](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique).**
+
+The initial resource bundle is uploading as of October 14, 2026; files will appear on the release page once the upload is committed. The prepared archive is `ScalLoc_Thermal-Oblique_Data_Weights_20261014.zip` (22.07 GB). Extract its `data/` and `weights/` directories into the repository root, without adding another parent folder. Allow approximately 23.1 GB for the extracted resources in addition to the ZIP, or extract to another disk and configure external paths.
+
+The release includes a `.sha256` checksum and verification report. Verify the download before extracting it. The Baidu Netdisk mirror will be added when available.
 
 | Resource | Release location |
 | --- | --- |
-| Thermal-Oblique images and sequence metadata | Hugging Face / Baidu Netdisk links to be supplied by the author |
-| Changsha satellite reference map | Distribution details and permissions to be supplied by the author |
-| Optional Changsha DSM, unused by the default fast pipeline | No download required for the default run; release details to be supplied if distributed |
-| Checkpoint bundle or upstream-download instructions | Final release links to be supplied by the author; upstream projects are listed below |
+| Thermal-Oblique images and sequence metadata | Included in the prepared Hugging Face bundle |
+| Changsha satellite reference map | `data/maps/changsha/ref.tif` in the same bundle |
+| VGGT / MINIMA-RoMa / DINOv2 checkpoints | `weights/` in the same bundle; exact hashes below |
+| Optional Changsha DSM | Not included or required by the default pipeline |
 
-Do not interpret these placeholders as published downloads. The dataset, map imagery, and each model may have different redistribution terms. Hosting a checkpoint on another platform does not change its upstream license.
+The dataset, map imagery, and each model may have different redistribution terms. Hosting a checkpoint on another platform does not change its upstream license. The accompanying paper is [ScalLoc, arXiv:2610.14866](https://arxiv.org/abs/2610.14866).
 
 ## Standard directory layout
 
@@ -32,7 +38,7 @@ data/
 └── maps/
     └── changsha/
         ├── ref.tif
-        └── dsm.tif              # Optional; not read by the default fast pipeline
+        └── dsm.tif              # Optional; not read by the default pipeline
 weights/
 ├── vggt/
 │   └── model.safetensors
@@ -50,7 +56,7 @@ The reference local dataset contains 216 sequences and 28,112 thermal frames. A 
 
 ## Maps and geographic configuration
 
-`ref.tif` is the required satellite reference image. `dsm.tif` is an optional digital surface model: the default fast pipeline **does not read it**, so there is no need to download or copy it to run the default profile. Retain the `paths.dsm_map` configuration field as a compatibility placeholder; its target file may be absent.
+`ref.tif` is the required satellite reference image. `dsm.tif` is an optional digital surface model: the default pipeline **does not read it**, so there is no need to download or copy it to run the default profile. Retain the `paths.dsm_map` configuration field as a compatibility placeholder; its target file may be absent.
 
 Geographic settings live in `configs/regions/changsha.yaml` and must match the actual satellite reference map. The supplied configuration describes the original Changsha reference: UTM zone 49N and 0.3 m/pixel. Do not change the image origin, map dimensions, georeferencing, or resolution independently.
 
@@ -58,7 +64,7 @@ Do not substitute an arbitrary satellite image with the same filename. A map mis
 
 ## Required checkpoints
 
-The default fast profile requires all three files:
+The default profile requires all three files:
 
 | File | Role | Reference SHA256 |
 | --- | --- | --- |

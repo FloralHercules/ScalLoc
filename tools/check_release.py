@@ -1,4 +1,4 @@
-"""Audit upload contents; produce a code-only file list without creating an archive."""
+"""Audit source and approved documentation figures without creating an archive."""
 from __future__ import annotations
 import argparse
 import hashlib
@@ -11,6 +11,18 @@ EXCLUDED = {'validation', 'outputs', 'Result', '.git', '__pycache__', '.pytest_c
             '.ruff_cache', '.venv', 'venv', 'dist', 'build'}
 FORBIDDEN = {'.pth', '.pt', '.ckpt', '.safetensors', '.tif', '.tiff', '.jpg', '.jpeg',
              '.png', '.gif', '.mp4', '.npz', '.npy', '.pkl', '.zip', '.tar', '.gz'}
+DOCUMENTATION_ASSETS = {
+    'assets/ScalLoc.png': {
+        'bytes': 6_342_656,
+        'sha256': '9634b54751cf79dd0d7b4726231c8166c5525a3955678727ba03a84200001376',
+    },
+    'assets/Thermal-Oblique.png': {
+        'bytes': 9_962_132,
+        'sha256': '131d77af24da69ac224cdd8f34950da7e8a1578b8c2c4b357eb1455bcbec91a2',
+    },
+}
+SECRET_PATTERNS = [r'-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----',
+                   r'\bhf_[A-Za-z0-9]{25,}\b', r'\bgh[pousr]_[A-Za-z0-9]{30,}\b']
 
 
 def included(path: Path) -> bool:
@@ -24,13 +36,35 @@ def included(path: Path) -> bool:
     return path.suffix not in {'.pyc', '.pyo', '.log'} and not path.name.startswith('.env')
 
 
+def validate_file(relative_path: str, data: bytes) -> list[str]:
+    """Exempt only the two byte-identical public figures from text-only rules."""
+    expected = DOCUMENTATION_ASSETS.get(relative_path)
+    if (expected is not None
+            and len(data) == expected['bytes']
+            and data.startswith(b'\x89PNG\r\n\x1a\n')
+            and hashlib.sha256(data).hexdigest() == expected['sha256']):
+        return []
+
+    errors = []
+    if expected is not None:
+        errors.append(f'Documentation figure does not match approved bytes: {relative_path}')
+    if Path(relative_path).suffix.lower() in FORBIDDEN or len(data) > 2_000_000:
+        errors.append(f'Unexpected binary/large asset: {relative_path}')
+    try:
+        text = data.decode('utf-8-sig')
+    except UnicodeDecodeError:
+        errors.append(f'Unexpected non-text file: {relative_path}')
+        text = ''
+    if any(re.search(pattern, text) for pattern in SECRET_PATTERNS):
+        errors.append(f'Potential secret (value suppressed): {relative_path}')
+    return errors
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--manifest', type=Path, help='Optional JSON list; keep local audit artifacts outside the upload set')
     args = parser.parse_args()
     files, errors = [], []
-    secret_patterns = [r'-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----',
-                       r'\bhf_[A-Za-z0-9]{25,}\b', r'\bgh[pousr]_[A-Za-z0-9]{30,}\b']
     for path in sorted(ROOT.rglob('*')):
         if not included(path):
             continue
@@ -41,15 +75,7 @@ def main():
             continue
         rel = path.relative_to(ROOT).as_posix()
         data = path.read_bytes()
-        if path.suffix.lower() in FORBIDDEN or len(data) > 2_000_000:
-            errors.append(f'Unexpected binary/large asset: {rel}')
-        try:
-            text = data.decode('utf-8-sig')
-        except UnicodeDecodeError:
-            errors.append(f'Unexpected non-text file: {rel}')
-            text = ''
-        if any(re.search(pattern, text) for pattern in secret_patterns):
-            errors.append(f'Potential secret (value suppressed): {rel}')
+        errors.extend(validate_file(rel, data))
         files.append(dict(path=rel, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()))
     result = dict(passed=not errors, file_count=len(files), total_bytes=sum(f['bytes'] for f in files),
                   errors=errors, excludes=sorted(EXCLUDED), files=files)

@@ -1,8 +1,20 @@
 # ScalLoc 中文使用说明
 
-本项目整理自原来可以运行的 **ScalLoc 快版本**，数据集公开名称为 **Thermal-Oblique**。不是 `ScalLoc-v1_end`，也不是之后的端到端位姿校正原型。
+**ScalLoc** 面向连续斜视热成像无人机定位，通过窗口重建、轨迹优化、卫星地图锚定和跨窗口传播，恢复全局轨迹。只需要二维卫星参考图，无需 DSM 或预建三维地图。
 
-这里只发布代码与配置，不包含数据集、卫星图、DSM、权重或历史结果。重构的目标是保持计算逻辑不变；实际对照测试状态请看 [REPRODUCIBILITY.md](REPRODUCIBILITY.md)，不能把“代码已整理”当作“数值已验证一致”。
+[论文（arXiv:2610.14866）](https://arxiv.org/abs/2610.14866) · [数据与权重（Hugging Face）](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique) · [英文主页](../README.md)
+
+![ScalLoc 方法框架](../assets/ScalLoc.png)
+
+## Thermal-Oblique 数据集
+
+数据集包含 **216 条轨迹、28,112 帧热成像图像**及逐帧标注，覆盖城市与乡村、昼间与夜间，以及直线、曲线和环绕三种运动类型。
+
+![Thermal-Oblique 数据集概览](../assets/Thermal-Oblique.png)
+
+数据集、卫星参考图和三个模型权重统一发布于 [Hugging Face](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique)，不放入 GitHub 代码仓库。截至 2026 年 10 月 14 日，首个资源包仍在上传，提交完成后即可下载。百度网盘镜像待补充。
+
+资源包下载后，将其中的 `data/` 和 `weights/` 合并到项目根目录；具体路径与校验值见 [资源指南](DATA_AND_WEIGHTS.md)。磁盘空间有限时，也可解压到其他盘，通过配置指定路径。
 
 ## 安装与运行
 
@@ -16,7 +28,7 @@ python -m pip install -r requirements.txt
 
 按 [DATA_AND_WEIGHTS.md](DATA_AND_WEIGHTS.md) 放置外部资源，然后运行：
 
-默认快版**不读取 DSM，不需要下载 `dsm.tif` 就能运行**。配置中保留 `paths.dsm_map` 作为兼容预留路径即可，该路径对应的文件可以不存在；卫星参考图 `ref.tif` 仍然必需。
+默认流程**不读取 DSM，不需要下载 `dsm.tif` 就能运行**。配置中保留 `paths.dsm_map` 作为兼容预留路径即可，该路径对应的文件可以不存在；卫星参考图 `ref.tif` 仍然必需。
 
 ```bash
 # 只检查资源，不加载模型。
@@ -46,11 +58,11 @@ python run.py --config configs/local.example.yaml --check
 python run.py --config configs/local.example.yaml
 ```
 
-所有相对路径以**项目根目录**为基准，而不是配置文件所在目录。个人本地配置不要上传，公开仓库只保留占位示例。Hugging Face 与百度网盘下载地址尚待作者补充，不提供虚构链接。
+所有相对路径以**项目根目录**为基准，而不是配置文件所在目录。个人本地配置不要上传，公开仓库只保留占位示例。
 
 ## 保持原实验条件
 
-默认保留原快版的 12 帧窗口、1 帧重叠、固定内参轨迹 BA、锚点逻辑，以及原实现使用的后续帧俯仰角/相对高度先验。它**不是纯 VGGT、不是仅首帧先验实验**。
+默认配置采用 12 帧窗口、1 帧重叠、固定内参轨迹优化、地图锚定和跨窗口传播，并使用元数据中的逐帧俯仰角与相对高度先验。
 
 扰动默认关闭：`run.pitch_max_deg: 0`、`run.height_max_fraction: 0`；`run.vggt_predictions: false`。详细中间图默认不保存。比较重构前后结果时，权重、输入数据、地图、帧顺序、参数和运行环境都应保持一致。
 
