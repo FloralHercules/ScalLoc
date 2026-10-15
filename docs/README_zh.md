@@ -12,7 +12,7 @@
 
 ![Thermal-Oblique 数据集概览](../assets/Thermal-Oblique.png)
 
-数据集、卫星参考图和三个模型权重统一发布于 [Hugging Face](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique)，不放入 GitHub 代码仓库。截至 2026 年 10 月 14 日，首个资源包仍在上传，提交完成后即可下载。百度网盘镜像待补充。
+数据集、卫星参考图和三个模型权重已发布于 [Hugging Face](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique)，可直接下载，不放入 GitHub 代码仓库。百度网盘镜像待补充。
 
 资源包下载后，将其中的 `data/` 和 `weights/` 合并到项目根目录；具体路径与校验值见 [资源指南](DATA_AND_WEIGHTS.md)。磁盘空间有限时，也可解压到其他盘，通过配置指定路径。
 
@@ -24,11 +24,11 @@
 python -m pip install -r requirements.txt
 ```
 
-原本地参考环境为 Python 3.12.9、PyTorch 2.6.0+cu126、torchvision 0.21.0+cu126、RTX 4060 Ti 16 GB。不同硬件、驱动或依赖版本可能造成数值差异；这不是最低硬件要求声明。
-
-按 [DATA_AND_WEIGHTS.md](DATA_AND_WEIGHTS.md) 放置外部资源，然后运行：
+按 [DATA_AND_WEIGHTS.md](DATA_AND_WEIGHTS.md) 放置外部资源。
 
 默认流程**不读取 DSM，不需要下载 `dsm.tif` 就能运行**。配置中保留 `paths.dsm_map` 作为兼容预留路径即可，该路径对应的文件可以不存在；卫星参考图 `ref.tif` 仍然必需。
+
+如需在其他流程中使用 DSM，可从 [Thermal-UAV 资源页](https://huggingface.co/datasets/FloralHercules/Thermal-UAV/tree/main) 获取，并放置为 `data/maps/changsha/dsm.tif`。来源文档标注该 DSM 为 5.29 m/像素，与本项目的 0.3 m/像素卫星地图并非同一网格，也未验证为可直接替换的资源；使用前需核对实际 GeoTIFF 的覆盖范围、坐标系和分辨率，完成必要的配准并匹配配置。详见[资源指南](DATA_AND_WEIGHTS.md)。
 
 ```bash
 # 只检查资源，不加载模型。
@@ -43,7 +43,7 @@ python run.py --config configs/default.yaml --max-windows 1
 # 指定序列；需要多条时可以重复 --dataset。
 python run.py --config configs/default.yaml --dataset Rural_Day_Curve_H150_P30_S01
 
-# 明确要求才运行全部可用序列。
+# 运行全部可用序列。
 python run.py --config configs/default.yaml --all-datasets
 ```
 
@@ -60,18 +60,40 @@ python run.py --config configs/local.example.yaml
 
 所有相对路径以**项目根目录**为基准，而不是配置文件所在目录。个人本地配置不要上传，公开仓库只保留占位示例。
 
-## 保持原实验条件
+## 默认配置
 
 默认配置采用 12 帧窗口、1 帧重叠、固定内参轨迹优化、地图锚定和跨窗口传播，并使用元数据中的逐帧俯仰角与相对高度先验。
 
-扰动默认关闭：`run.pitch_max_deg: 0`、`run.height_max_fraction: 0`；`run.vggt_predictions: false`。详细中间图默认不保存。比较重构前后结果时，权重、输入数据、地图、帧顺序、参数和运行环境都应保持一致。
+扰动默认关闭：`run.pitch_max_deg: 0`、`run.height_max_fraction: 0`；`run.vggt_predictions: false`。详细中间图默认不保存。
 
-## 发布前注意
+## 前置工作与引用
 
-本次重构已验证一条完整曲线：138 帧、13 个窗口，与重新运行的原版及
-10 月 2 日保存的原版结果均逐项一致，逐帧 CSV 的 SHA256 也一致。
-详细指标、比较范围和复现命令见 [复现报告](REPRODUCIBILITY.md)。
-这不代表已经复核全部 216 条轨迹。
+[SCC-Loc](https://arxiv.org/abs/2604.03120) 是我们在无人机热成像地理定位方向的前置工作，提出统一的语义级联共识框架。
+
+如果在研究中使用 ScalLoc 或 Thermal-Oblique，请引用：
+
+```bibtex
+@article{zhang2026scalloc,
+  title   = {ScalLoc: Continuous Oblique Thermal UAV Geo-Localization with a 2D Satellite Map},
+  author  = {Zhang, Xiaoran and Liu, Yu and Liang, Jinyu and Xiao, Huaxin},
+  journal = {arXiv preprint arXiv:2610.14866},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2610.14866}
+}
+```
+
+相关的 SCC-Loc 工作请引用：
+
+```bibtex
+@article{zhang2026scc,
+  title   = {SCC-Loc: A Unified Semantic Cascade Consensus Framework for UAV Thermal Geo-Localization},
+  author  = {Zhang, Xiaoran and Liu, Yu and Liang, Jinyu and Li, Kangqiushi and Huang, Zhiwei and Xiao, Huaxin},
+  journal = {arXiv preprint arXiv:2604.03120},
+  year    = {2026}
+}
+```
+
+## 许可证与资源说明
 
 - 数据、权重、结果、缓存、个人绝对路径不属于代码发布包。
 - 自有代码根许可证尚待作者选择，见 [LICENSE_NOTICE.md](../LICENSE_NOTICE.md)。

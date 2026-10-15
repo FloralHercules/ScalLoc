@@ -6,16 +6,16 @@ The code release deliberately excludes all datasets, maps, checkpoints, and gene
 
 **Release page: [Hugging Face — FloralHercules/Thermal-Oblique](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique).**
 
-The initial resource bundle is uploading as of October 14, 2026; files will appear on the release page once the upload is committed. The prepared archive is `ScalLoc_Thermal-Oblique_Data_Weights_20261014.zip` (22.07 GB). Extract its `data/` and `weights/` directories into the repository root, without adding another parent folder. Allow approximately 23.1 GB for the extracted resources in addition to the ZIP, or extract to another disk and configure external paths.
+The resource bundle is available for download as `ScalLoc_Thermal-Oblique_Data_Weights_20261014.zip` (22.07 GB). Extract its `data/` and `weights/` directories into the repository root, without adding another parent folder. Allow approximately 23.1 GB for the extracted resources in addition to the ZIP, or extract to another disk and configure external paths.
 
 The release includes a `.sha256` checksum and verification report. Verify the download before extracting it. The Baidu Netdisk mirror will be added when available.
 
 | Resource | Release location |
 | --- | --- |
-| Thermal-Oblique images and sequence metadata | Included in the prepared Hugging Face bundle |
+| Thermal-Oblique images and sequence metadata | Included in the Hugging Face bundle |
 | Changsha satellite reference map | `data/maps/changsha/ref.tif` in the same bundle |
 | VGGT / MINIMA-RoMa / DINOv2 checkpoints | `weights/` in the same bundle; exact hashes below |
-| Optional Changsha DSM | Not included or required by the default pipeline |
+| Optional DSM | Available separately from [Thermal-UAV](https://huggingface.co/datasets/FloralHercules/Thermal-UAV/tree/main); not required by the default pipeline |
 
 The dataset, map imagery, and each model may have different redistribution terms. Hosting a checkpoint on another platform does not change its upstream license. The accompanying paper is [ScalLoc, arXiv:2610.14866](https://arxiv.org/abs/2610.14866).
 
@@ -52,11 +52,15 @@ The public dataset name is **Thermal-Oblique**. The `test/changsha` path preserv
 
 Keep the original image filenames, image contents, metadata columns, units, and row associations. Do not resize images, reorder or rewrite metadata, or rename individual frames to prepare this release. The provided pipeline expects the original relationship between `Thermal/` and `Thermal_info.csv`.
 
-The reference local dataset contains 216 sequences and 28,112 thermal frames. A partial installation can run the selected sequences only. The default command selects one complete sequence, `Rural_Day_Curve_H150_P30_S01`, rather than requiring an all-sequence run.
+The dataset contains 216 sequences and 28,112 thermal frames. A partial installation can run the selected sequences only. The default command selects one complete sequence, `Rural_Day_Curve_H150_P30_S01`, rather than requiring an all-sequence run.
 
 ## Maps and geographic configuration
 
 `ref.tif` is the required satellite reference image. `dsm.tif` is an optional digital surface model: the default pipeline **does not read it**, so there is no need to download or copy it to run the default profile. Retain the `paths.dsm_map` configuration field as a compatibility placeholder; its target file may be absent.
+
+For workflows that need a DSM, an optional source is the [Thermal-UAV resource page](https://huggingface.co/datasets/FloralHercules/Thermal-UAV/tree/main). Its documentation lists the DSM at `Data/Reference_map/changsha/dsm.tif` with a resolution of 5.29 m/pixel. Extract the DSM from the source resources and place it at `data/maps/changsha/dsm.tif` for ScalLoc.
+
+The source DSM and the current 0.3 m/pixel satellite map do not share the same grid. This DSM has not been verified as a directly interchangeable resource: inspect the actual GeoTIFF coverage, coordinate system, and resolution, perform any necessary registration, and match the configuration before use. Renaming or copying the file alone does not establish alignment.
 
 Geographic settings live in `configs/regions/changsha.yaml` and must match the actual satellite reference map. The supplied configuration describes the original Changsha reference: UTM zone 49N and 0.3 m/pixel. Do not change the image origin, map dimensions, georeferencing, or resolution independently.
 
@@ -72,7 +76,7 @@ The default profile requires all three files:
 | `weights/minima/minima_roma.pth` | MINIMA-RoMa cross-modal matcher | `17f3923bd780e8f1450792706e0643f70c8864ad11bf5fd4f2b54714bac23538` |
 | `weights/dinov2/dinov2_vitl14_pretrain.pth` | RoMa's DINOv2 ViT-L/14 backbone | `d5383ea8f4877b2472eb973e0fd72d557c7da5d3611bd527ceeb1d7162cbf428` |
 
-These hashes identify the checkpoints recorded for the original local reference installation. They are not generic hashes for every release of the corresponding model. A different VGGT checkpoint, DINOv2 variant, or matcher checkpoint changes the reproduction target.
+These hashes identify the required checkpoints. They are not generic hashes for every release of the corresponding model. A different VGGT checkpoint, DINOv2 variant, or matcher checkpoint changes the model configuration.
 
 Upstream sources:
 
@@ -105,7 +109,7 @@ Then check resources without loading models:
 python run.py --config configs/local.example.yaml --check
 ```
 
-Checking resource availability does not validate numerical equivalence or prove the input metadata matches the imagery. See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full regression procedure and results.
+This check verifies resource availability; it does not validate the input metadata against the imagery.
 
 ## What not to commit
 

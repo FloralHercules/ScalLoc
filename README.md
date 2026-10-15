@@ -38,7 +38,7 @@ ScalLoc combines four stages:
 
 The default configuration uses 12-frame windows with one-frame overlap, track-based refinement, and pitch/relative-height priors from the frame metadata. Perturbations are disabled by default.
 
-In the [paper](https://arxiv.org/abs/2610.14866), ScalLoc achieves a frame-weighted mean position error of **26.97 m**, compared with **112.69 m** for the VGGT-only configuration (**76.07% reduction**). These are paper-reported results; the separate code-restructuring regression check is documented in [Reproducibility](docs/REPRODUCIBILITY.md).
+In the [paper](https://arxiv.org/abs/2610.14866), ScalLoc achieves a frame-weighted mean position error of **26.97 m**, compared with **112.69 m** for the VGGT-only configuration (**76.07% reduction**).
 
 ## Thermal-Oblique Dataset
 
@@ -52,9 +52,10 @@ In the [paper](https://arxiv.org/abs/2610.14866), ScalLoc achieves a frame-weigh
 
 - **Dataset, satellite map, and model checkpoints:** [Hugging Face — FloralHercules/Thermal-Oblique](https://huggingface.co/datasets/FloralHercules/Thermal-Oblique).
 - **Placement instructions and checkpoint hashes:** [Data and weights guide](docs/DATA_AND_WEIGHTS.md).
+- **Optional DSM:** [Thermal-UAV resources](https://huggingface.co/datasets/FloralHercules/Thermal-UAV/tree/main), from our prior work [SCC-Loc](https://arxiv.org/abs/2604.03120).
 - **Baidu Netdisk mirror:** coming soon.
 
-The initial Hugging Face bundle is uploading as of October 14, 2026; download files become available once the upload is committed. The prepared ZIP contains the dataset, the Changsha satellite reference image, and all three required checkpoints. Data and weights are hosted separately from this code repository.
+The Hugging Face ZIP bundle contains the dataset, the Changsha satellite reference image, and all three required checkpoints. Data and weights are hosted separately from this code repository.
 
 After downloading the bundle, extract its `data/` and `weights/` directories into the repository root:
 
@@ -75,6 +76,8 @@ ScalLoc/
 
 Keep the original frame filenames and metadata unchanged. `test/changsha` is the released directory organization, not a new geographically held-out split. The default pipeline does not read `dsm.tif`, so no DSM download is needed.
 
+If your own experiments require a DSM, obtain it from the Thermal-UAV resource page linked above and place it at `data/maps/changsha/dsm.tif`, or configure an external `paths.dsm_map`. Check its geographic coverage, coordinate system, height reference, and pixel resolution before use; the optional DSM is not assumed to share the released satellite map's pixel grid. See the [map configuration guide](docs/DATA_AND_WEIGHTS.md#maps-and-geographic-configuration) for details.
+
 ## Installation
 
 ```bash
@@ -87,8 +90,6 @@ Use an isolated Python environment. Install a matching **PyTorch/torchvision** p
 ```bash
 python -m pip install -r requirements.txt
 ```
-
-The tested environment is **Python 3.12.9**, **PyTorch 2.6.0+cu126**, **torchvision 0.21.0+cu126**, and an **NVIDIA RTX 4060 Ti (16 GB)**. CUDA is strongly recommended. For the tested non-PyTorch dependency versions, use [`requirements-tested.txt`](requirements-tested.txt) instead of `requirements.txt`.
 
 `run.py` works directly from the checkout. An editable installation is optional:
 
@@ -164,10 +165,8 @@ ScalLoc/
 ├── weights/                  # External checkpoint location
 ├── tests/                    # Interface and numerical-preservation checks
 ├── tools/                    # Release and regression-check utilities
-└── docs/                     # Setup guide and reproducibility details
+└── docs/                     # Setup and resource guides
 ```
-
-For the measured original-versus-restructured comparison and the commands to repeat it, see [Reproducibility](docs/REPRODUCIBILITY.md). For contributions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Citation
 
@@ -180,6 +179,19 @@ If you use ScalLoc or Thermal-Oblique in your research, please cite our paper:
   journal = {arXiv preprint arXiv:2610.14866},
   year    = {2026},
   url     = {https://arxiv.org/abs/2610.14866}
+}
+```
+
+### Prior Work: SCC-Loc
+
+Our prior work, [SCC-Loc: A Unified Semantic Cascade Consensus Framework for UAV Thermal Geo-Localization](https://arxiv.org/abs/2604.03120), introduces the Thermal-UAV dataset and its satellite/DSM resources. See the [SCC-Loc repository](https://github.com/FloralHercules/SCC-Loc) for the implementation. If you use SCC-Loc or the Thermal-UAV resources, please also cite:
+
+```bibtex
+@article{zhang2026scc,
+  title={SCC-Loc: A Unified Semantic Cascade Consensus Framework for UAV Thermal Geo-Localization},
+  author={Zhang, Xiaoran and Liu, Yu and Liang, Jinyu and Li, Kangqiushi and Huang, Zhiwei and Xiao, Huaxin},
+  journal={arXiv preprint arXiv:2604.03120},
+  year={2026}
 }
 ```
 
