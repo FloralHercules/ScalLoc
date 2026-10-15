@@ -1,26 +1,25 @@
-# ScalLoc: Continuous Oblique Thermal UAV Geo-Localization with a 2D Satellite Map
+<div align="center">
+  <img src="assets/scalloc-sequence-logo.svg" alt="ScalLoc: sequential UAV localization on a satellite map" width="150" height="150"/>
+  <br><br>
+  <h1>ScalLoc: Continuous Oblique Thermal UAV Geo-Localization with a 2D Satellite Map</h1>
 
-<p align="center">
-  <strong>Xiaoran Zhang · Yu Liu · Jinyu Liang · Huaxin Xiao</strong>
-</p>
-
-<p align="center">
+<p>
   <a href="https://arxiv.org/abs/2610.14866"><img src="https://img.shields.io/badge/arXiv-2610.14866-b31b1b.svg" alt="arXiv paper"></a>
   <a href="https://huggingface.co/datasets/FloralHercules/Thermal-Oblique"><img src="https://img.shields.io/badge/Hugging%20Face-Thermal--Oblique-ffd21e.svg" alt="Thermal-Oblique on Hugging Face"></a>
   <a href="https://github.com/FloralHercules/ScalLoc/stargazers"><img src="https://img.shields.io/github/stars/FloralHercules/ScalLoc?style=social" alt="GitHub stars"></a>
 </p>
 
-<p align="center">
-  If you find our work useful, please consider giving us a ⭐️.<br>
-  Your support means a lot to us! 🥰
+<p>
+  If you find our work useful, please consider giving us a ⭐️. Your support means a lot to us! 🥰
 </p>
 
-<p align="center">
+<p>
   <a href="https://arxiv.org/abs/2610.14866">Paper</a> ·
   <a href="https://arxiv.org/pdf/2610.14866">PDF</a> ·
   <a href="https://huggingface.co/datasets/FloralHercules/Thermal-Oblique">Dataset &amp; Weights</a> ·
   <a href="docs/README_zh.md">中文说明</a>
 </p>
+</div>
 
 Official implementation of **ScalLoc**, a scale-aligned local-to-map framework for continuous oblique thermal UAV geo-localization. Given a thermal sequence and a geo-referenced **2D satellite map**, ScalLoc reconstructs local geometry, refines camera poses, anchors windows to the map, and propagates validated states to recover a global trajectory. No digital surface model or preconstructed 3D map is required.
 
