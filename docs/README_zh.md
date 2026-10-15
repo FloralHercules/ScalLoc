@@ -85,11 +85,14 @@ python run.py --config configs/local.example.yaml
 相关的 SCC-Loc 工作请引用：
 
 ```bibtex
-@article{zhang2026scc,
-  title   = {SCC-Loc: A Unified Semantic Cascade Consensus Framework for UAV Thermal Geo-Localization},
-  author  = {Zhang, Xiaoran and Liu, Yu and Liang, Jinyu and Li, Kangqiushi and Huang, Zhiwei and Xiao, Huaxin},
-  journal = {arXiv preprint arXiv:2604.03120},
-  year    = {2026}
+@ARTICLE{11622684,
+  author={Zhang, Xiaoran and Liu, Yu and Liang, Jinyu and Li, Kangqiushi and Huang, Zhiwei and Xiao, Huaxin},
+  journal={IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing},
+  title={SCC-Loc: A Unified Semantic Cascade Consensus Framework for UAV Thermal Geo-Localization},
+  year={2026},
+  volume={19},
+  number={},
+  pages={25299--25315}
 }
 ```
 
