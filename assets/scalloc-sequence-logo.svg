@@ -7,29 +7,29 @@
     <path d="M23 236L62 138L109 153L161 135L207 149L236 236L174 219L112 239Z" fill="#F0F9FF"/>
     <path d="M109 153L161 135L174 219L112 239Z" fill="#FFFFFF"/>
     <path d="M161 135L207 149L236 236L174 219Z" fill="#D9F0FF"/>
-    <path d="M23 236L62 138L109 153L161 135L207 149L236 236L174 219L112 239Z" stroke="#176FB2" stroke-width="5"/>
-    <path d="M109 153L112 239M161 135L174 219" stroke="#176FB2" stroke-width="4"/>
+    <path d="M23 236L62 138L109 153L161 135L207 149L236 236L174 219L112 239Z" stroke="#176FB2" stroke-width="7.5"/>
+    <path d="M109 153L112 239M161 135L174 219" stroke="#176FB2" stroke-width="5.5"/>
 
     <!-- Ordered observations: a connected route, a forward arrow, and the current pose. -->
-    <path d="M55 213C74 214 88 192 107 194S141 213 160 207S187 183 205 184" stroke="#168ED0" stroke-width="4.5" stroke-dasharray="5 7"/>
-    <path d="M177 190L188 191L184 202" stroke="#168ED0" stroke-width="4"/>
-    <circle cx="55" cy="213" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
-    <circle cx="107" cy="194" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
-    <circle cx="160" cy="207" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
-    <circle cx="205" cy="184" r="7" fill="#FB9DAA" stroke="#176FB2" stroke-width="3.5"/>
+    <path d="M55 213C74 214 88 192 107 194S141 213 160 207S187 183 205 184" stroke="#168ED0" stroke-width="5.5" stroke-dasharray="5 9"/>
+    <path d="M177 190L188 191L184 202" stroke="#168ED0" stroke-width="5.5"/>
+    <circle cx="55" cy="213" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="5"/>
+    <circle cx="107" cy="194" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="5"/>
+    <circle cx="160" cy="207" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="5"/>
+    <circle cx="205" cy="184" r="7" fill="#FB9DAA" stroke="#176FB2" stroke-width="5"/>
 
     <!-- The location pin is deliberately readable at the 150 px header size. -->
-    <path d="M79 63C56 63 39 80 39 101C39 129 79 176 79 176S119 129 119 101C119 80 102 63 79 63Z" fill="#FFFFFF" stroke="#176FB2" stroke-width="5.5"/>
-    <circle cx="79" cy="101" r="22" fill="#FFFFFF" stroke="#176FB2" stroke-width="4.5"/>
+    <path d="M79 63C56 63 39 80 39 101C39 129 79 176 79 176S119 129 119 101C119 80 102 63 79 63Z" fill="#FFFFFF" stroke="#176FB2" stroke-width="8"/>
+    <circle cx="79" cy="101" r="22" fill="#FFFFFF" stroke="#176FB2" stroke-width="6.5"/>
 
     <!-- Front view: a flat rotor bar, raised motor hubs, curved legs, and a gimbal. -->
-    <g stroke="#FB9DAA" stroke-width="6">
+    <g stroke="#FB9DAA" stroke-width="8">
       <path d="M131 37H239M145 25V48M225 25V48"/>
-      <path d="M159 38H211L202 49H168Z" fill="#FB9DAA" stroke-width="3"/>
+      <path d="M159 38H211L202 49H168Z" fill="#FB9DAA" stroke-width="4.5"/>
       <path d="M168 57C153 65 145 82 145 100M202 57C217 65 225 82 225 100"/>
-      <path d="M173 57C173 46 197 46 197 57L190 64H180Z" fill="#FB9DAA" stroke-width="3"/>
+      <path d="M173 57C173 46 197 46 197 57L190 64H180Z" fill="#FB9DAA" stroke-width="4.5"/>
       <path d="M185 63V78"/>
-      <rect x="174" y="77" width="22" height="18" rx="2" fill="#FB9DAA" stroke-width="3"/>
+      <rect x="174" y="77" width="22" height="18" rx="2" fill="#FB9DAA" stroke-width="4.5"/>
     </g>
     <circle cx="185" cy="86" r="4" fill="#164E72"/>
   </g>
