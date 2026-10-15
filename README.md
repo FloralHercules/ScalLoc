@@ -7,6 +7,12 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2610.14866"><img src="https://img.shields.io/badge/arXiv-2610.14866-b31b1b.svg" alt="arXiv paper"></a>
   <a href="https://huggingface.co/datasets/FloralHercules/Thermal-Oblique"><img src="https://img.shields.io/badge/Hugging%20Face-Thermal--Oblique-ffd21e.svg" alt="Thermal-Oblique on Hugging Face"></a>
+  <a href="https://github.com/FloralHercules/ScalLoc/stargazers"><img src="https://img.shields.io/github/stars/FloralHercules/ScalLoc?style=social" alt="GitHub stars"></a>
+</p>
+
+<p align="center">
+  If you find our work useful, please consider giving us a ⭐️.<br>
+  Your support means a lot to us! 🥰
 </p>
 
 <p align="center">
