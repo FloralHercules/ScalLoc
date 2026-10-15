@@ -1,35 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-labelledby="title desc">
   <title id="title">ScalLoc sequential UAV localization</title>
-  <desc id="desc">A coral drone above a blue folded map, with a location pin and connected trajectory waypoints.</desc>
+  <desc id="desc">A front-facing coral drone with landing legs and a camera above a blue folded map. A location pin and a directional chain of four waypoints represent sequential localization.</desc>
 
   <!-- A folded satellite map, with a continuous sequence of localized poses. -->
   <g stroke-linecap="round" stroke-linejoin="round">
-    <path d="M24 165L83 144L141 164L208 141L234 217L174 239L113 219L23 238Z" fill="#F0F9FF" stroke="#176FB2" stroke-width="5"/>
-    <path d="M83 147L113 217L174 237L141 166Z" fill="#D9F0FF"/>
-    <path d="M83 146L113 219M141 165L174 237" stroke="#176FB2" stroke-width="4"/>
-    <path d="M48 211C64 212 74 189 95 188S128 213 150 208S176 177 199 177" stroke="#168ED0" stroke-width="4.5" stroke-dasharray="5 8"/>
-    <circle cx="48" cy="211" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
-    <circle cx="95" cy="188" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
-    <circle cx="150" cy="208" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
-    <circle cx="199" cy="177" r="7" fill="#FB9DAA" stroke="#176FB2" stroke-width="3.5"/>
+    <path d="M23 236L62 138L109 153L161 135L207 149L236 236L174 219L112 239Z" fill="#F0F9FF"/>
+    <path d="M109 153L161 135L174 219L112 239Z" fill="#FFFFFF"/>
+    <path d="M161 135L207 149L236 236L174 219Z" fill="#D9F0FF"/>
+    <path d="M23 236L62 138L109 153L161 135L207 149L236 236L174 219L112 239Z" stroke="#176FB2" stroke-width="5"/>
+    <path d="M109 153L112 239M161 135L174 219" stroke="#176FB2" stroke-width="4"/>
+
+    <!-- Ordered observations: a connected route, a forward arrow, and the current pose. -->
+    <path d="M55 213C74 214 88 192 107 194S141 213 160 207S187 183 205 184" stroke="#168ED0" stroke-width="4.5" stroke-dasharray="5 7"/>
+    <path d="M177 190L188 191L184 202" stroke="#168ED0" stroke-width="4"/>
+    <circle cx="55" cy="213" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
+    <circle cx="107" cy="194" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
+    <circle cx="160" cy="207" r="6" fill="#FFFFFF" stroke="#176FB2" stroke-width="3.5"/>
+    <circle cx="205" cy="184" r="7" fill="#FB9DAA" stroke="#176FB2" stroke-width="3.5"/>
 
     <!-- The location pin is deliberately readable at the 150 px header size. -->
-    <path d="M75 65C53 65 36 82 36 103C36 130 75 174 75 174S114 130 114 103C114 82 97 65 75 65Z" fill="#FFFFFF" stroke="#176FB2" stroke-width="5.5"/>
-    <circle cx="75" cy="103" r="20" fill="#E3F4FF" stroke="#176FB2" stroke-width="5"/>
+    <path d="M79 63C56 63 39 80 39 101C39 129 79 176 79 176S119 129 119 101C119 80 102 63 79 63Z" fill="#FFFFFF" stroke="#176FB2" stroke-width="5.5"/>
+    <circle cx="79" cy="101" r="22" fill="#FFFFFF" stroke="#176FB2" stroke-width="4.5"/>
 
-    <!-- Four rotors, a central airframe, and a downward-facing camera. -->
-    <g stroke="#FB9DAA" stroke-width="5">
-      <path d="M181 57L151 35M181 57L213 35M181 57L151 80M181 57L213 80"/>
-      <ellipse cx="151" cy="32" rx="16" ry="6"/>
-      <ellipse cx="213" cy="32" rx="16" ry="6"/>
-      <ellipse cx="151" cy="83" rx="16" ry="6"/>
-      <ellipse cx="213" cy="83" rx="16" ry="6"/>
-      <path d="M151 25V20M213 25V20M151 90V95M213 90V95"/>
-      <rect x="166" y="43" width="31" height="29" rx="10" fill="#FB9DAA"/>
-      <path d="M174 74V86M190 74V86"/>
-      <rect x="174" y="85" width="16" height="12" rx="3" fill="#FB9DAA" stroke-width="3"/>
+    <!-- Front view: a flat rotor bar, raised motor hubs, curved legs, and a gimbal. -->
+    <g stroke="#FB9DAA" stroke-width="6">
+      <path d="M131 37H239M145 25V48M225 25V48"/>
+      <path d="M159 38H211L202 49H168Z" fill="#FB9DAA" stroke-width="3"/>
+      <path d="M168 57C153 65 145 82 145 100M202 57C217 65 225 82 225 100"/>
+      <path d="M173 57C173 46 197 46 197 57L190 64H180Z" fill="#FB9DAA" stroke-width="3"/>
+      <path d="M185 63V78"/>
+      <rect x="174" y="77" width="22" height="18" rx="2" fill="#FB9DAA" stroke-width="3"/>
     </g>
-    <circle cx="182" cy="91" r="3.5" fill="#164E72"/>
-    <path d="M174 111L159 143M192 111L208 142" stroke="#71BCEC" stroke-width="3" stroke-dasharray="4 6"/>
+    <circle cx="185" cy="86" r="4" fill="#164E72"/>
   </g>
 </svg>
